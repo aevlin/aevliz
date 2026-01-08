@@ -7,6 +7,11 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const backgroundColor = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.95)"]
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,67 +22,68 @@ export function Navbar() {
   }, []);
 
   const navItems = [
-    { name: "Work", href: "#work" },
+    { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
     { name: "Experience", href: "#experience" },
+    { name: "Work", href: "#work" },
+    { name: "Skills", href: "#skills" },
     { name: "Contact", href: "#contact" },
   ];
 
   return (
     <motion.nav
+      style={{ backgroundColor }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white border-b-4 border-black shadow-lg" : "bg-white/80 backdrop-blur-md"
+        isScrolled ? "shadow-lg backdrop-blur-md" : ""
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.a
             href="#home"
-            className="relative group z-50"
+            className="relative"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex items-center gap-3">
-              <img 
-                src={aevLogo} 
-                alt="Aev" 
-                className="h-12 w-auto brightness-0 group-hover:scale-110 transition-transform duration-300"
-              />
-              <span className="font-['Bebas_Neue'] text-2xl tracking-wider hidden sm:block">AEVLIN PRINCE</span>
-            </div>
+            <img 
+              src={aevLogo} 
+              alt="Aev" 
+              className="h-10 w-auto"
+            />
           </motion.a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-8">
             {navItems.map((item, index) => (
               <motion.a
                 key={item.name}
                 href={item.href}
-                className="relative px-6 py-2 text-black font-bold uppercase text-sm tracking-wider hover:bg-black hover:text-white transition-colors duration-300 border-2 border-transparent hover:border-black"
+                className="relative text-gray-700 hover:text-purple-600 transition-colors duration-300 group"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 group-hover:w-full transition-all duration-300" />
               </motion.a>
             ))}
             <motion.a
               href="#contact"
-              className="ml-2 px-6 py-3 bg-black text-white font-bold uppercase text-sm tracking-wider brutalist-border brutalist-hover"
+              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
             >
-              Hire Me
+              Let's Talk
             </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-3 bg-black text-white border-2 border-black hover:bg-white hover:text-black transition-colors z-50"
+            className="md:hidden p-2 text-gray-700 hover:text-purple-600 transition-colors"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -89,15 +95,15 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden pb-6 border-t-4 border-black mt-0"
+            className="md:hidden mt-4 pb-4"
           >
-            <div className="flex flex-col gap-2 pt-6">
+            <div className="flex flex-col gap-4">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-3 bg-neutral-100 text-black hover:bg-black hover:text-white transition-colors font-bold uppercase text-sm tracking-wider border-2 border-black"
+                  className="text-gray-700 hover:text-purple-600 transition-colors py-2"
                 >
                   {item.name}
                 </a>
@@ -105,9 +111,9 @@ export function Navbar() {
               <a
                 href="#contact"
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-3 bg-black text-white font-bold uppercase text-sm tracking-wider text-center border-2 border-black"
+                className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-center"
               >
-                Hire Me
+                Let's Talk
               </a>
             </div>
           </motion.div>

@@ -9,7 +9,6 @@ import { Skills } from "./components/Skills";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { CursorEffect } from "./components/CursorEffect";
-import { LoadingScreen } from "./components/LoadingScreen";
 import { ToneUp } from "./components/case-studies/ToneUp";
 import { AEVFLIX } from "./components/case-studies/AEVFLIX";
 import { Cavera } from "./components/case-studies/Cavera";
@@ -17,7 +16,6 @@ import { WhatsApp1990s } from "./components/case-studies/WhatsApp1990s";
 
 export default function App() {
   const [currentView, setCurrentView] = useState<"portfolio" | "toneup" | "aevflix" | "cavera" | "whatsapp1990s">("portfolio");
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Smooth scrolling for anchor links
@@ -55,11 +53,6 @@ export default function App() {
     setCurrentView("portfolio");
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  // Show loading screen
-  if (isLoading) {
-    return <LoadingScreen onLoadComplete={() => setIsLoading(false)} />;
-  }
 
   // Render case study pages
   if (currentView === "toneup") {
@@ -100,46 +93,27 @@ export default function App() {
 
   // Render main portfolio
   return (
-    <div className="min-h-screen bg-white relative">
+    <div className="min-h-screen bg-white">
       <CursorEffect />
       <Navbar />
       <section id="home">
         <Hero />
       </section>
-      
-      {/* Massive spacing between sections - like separate pages */}
-      <div className="h-64" />
-      
       <section id="about">
         <About />
       </section>
-      
-      <div className="h-32" />
-      
       <section id="experience">
         <Experience />
       </section>
-      
-      <div className="h-32" />
-      
       <section id="work">
         <Projects onProjectClick={handleProjectClick} />
       </section>
-      
-      <div className="h-32" />
-      
       <section id="design-works">
         <DesignWorks />
       </section>
-      
-      <div className="h-32" />
-      
       <section id="skills">
         <Skills />
       </section>
-      
-      <div className="h-32" />
-      
       <section id="contact">
         <Contact />
       </section>

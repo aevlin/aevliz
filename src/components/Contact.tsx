@@ -1,149 +1,169 @@
 import { motion } from "motion/react";
-import { Mail, Linkedin, Instagram, Github, MapPin, Sparkles } from "lucide-react";
+import { Mail, Linkedin, Github, MapPin, Sparkles } from "lucide-react";
+import { DoodleHeart, DoodleStar, DoodleSparkle } from "./Doodles";
 
 export function Contact() {
   const socialLinks = [
+    { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/aevlin-prince-146887291/", color: "from-blue-500 to-blue-600" },
+    { icon: Github, label: "GitHub", href: "https://github.com/aevlin", color: "from-gray-700 to-gray-900" },
+    { icon: Mail, label: "Email", href: "mailto:aevlinprince@gmail.com", color: "from-purple-500 to-pink-500" },
+  ];
+
+  const contactInfo = [
     {
-      platform: "LinkedIn",
-      url: "https://www.linkedin.com/in/aevlin-prince/",
-      icon: Linkedin,
+      icon: Mail,
+      label: "Email",
+      value: "aevlinprince@gmail.com",
+      href: "mailto:aevlinprince@gmail.com",
+      color: "from-purple-500 to-pink-500",
     },
     {
-      platform: "Instagram", 
-      url: "https://www.instagram.com/prince_the_artist/",
-      icon: Instagram,
+      icon: MapPin,
+      label: "Location",
+      value: "Kottayam, Kerala, India",
+      href: "#",
+      color: "from-orange-500 to-purple-500",
     },
-    {
-      platform: "GitHub",
-      url: "https://github.com/aevlinprince",
-      icon: Github,
-    }
   ];
 
   return (
-    <section id="contact" className="relative py-16 md:py-24 px-4 md:px-6 bg-black text-white overflow-hidden">
-      {/* Animated background grid */}
-      <div className="absolute inset-0 grid-pattern opacity-10" />
-      
-      {/* Floating shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-32 h-32 md:w-64 md:h-64 border-4 border-white opacity-5"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              rotate: [0, 360],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 10 + i * 2,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-        ))}
-      </div>
+    <section className="py-24 px-6 bg-gradient-to-b from-pink-50 via-purple-50 to-white relative overflow-hidden">
+      {/* Doodle decorations */}
+      <motion.div
+        className="absolute top-20 right-20 text-pink-300 opacity-20 hidden lg:block"
+        animate={{ rotate: [0, 10, -10, 0] }}
+        transition={{ duration: 3, repeat: Infinity }}
+      >
+        <DoodleHeart />
+      </motion.div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        {/* Header */}
+      <motion.div
+        className="absolute bottom-32 left-10 text-purple-300 opacity-20 hidden lg:block"
+        animate={{ y: [0, -20, 0] }}
+        transition={{ duration: 2.5, repeat: Infinity }}
+      >
+        <DoodleStar />
+      </motion.div>
+
+      <motion.div
+        className="absolute top-1/2 right-10 text-orange-300 opacity-15 hidden lg:block"
+        animate={{ rotate: [0, 360] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+      >
+        <DoodleSparkle />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto relative">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 md:mb-20 text-center"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-3 bg-white text-black px-5 py-2.5 mb-12 shadow-brutal"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span className="uppercase tracking-wider text-xs">Get In Touch</span>
-          </motion.div>
-
-          <h2 className="text-white leading-[0.85] text-[70px] md:text-[120px] lg:text-[160px] mb-8">
-            LET'S
-            <br />
-            <span className="text-outline-white">TALK</span>
+          <span className="inline-block px-5 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-600 rounded-full mb-6 border-2 border-purple-200">
+            Get In Touch
+          </span>
+          <h2 className="mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Let's Work Together
           </h2>
-
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed">
-            Have a project in mind? Let's create something amazing together.
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Have a project in mind? I'd love to hear about it. Drop me a message and let's create something amazing together! ✨
           </p>
         </motion.div>
 
-        {/* Email Block */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12 md:mb-16"
-        >
-          <a
-            href="mailto:aevlinprince@gmail.com"
-            className="block group"
+        <div className="max-w-2xl mx-auto">
+          {/* Contact Info & Cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
           >
-            <div className="flex items-center gap-6 md:gap-8 group-hover:translate-x-2 transition-transform">
-              <Mail className="w-12 h-12 md:w-16 md:h-16 text-white group-hover:rotate-12 transition-transform flex-shrink-0" />
-              
-              <div>
-                <div className="text-xs uppercase tracking-wider text-neutral-500 mb-2">
-                  Email Me
+            {/* Contact info cards */}
+            {contactInfo.map((info, index) => {
+              const Icon = info.icon;
+              return (
+                <motion.a
+                  key={info.label}
+                  href={info.href}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group block bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-purple-100 hover:border-pink-200"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${info.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-grow">
+                      <div className="text-gray-500 text-sm mb-1">{info.label}</div>
+                      <div className="text-gray-800 group-hover:text-purple-600 transition-colors">
+                        {info.value}
+                      </div>
+                    </div>
+                  </div>
+                </motion.a>
+              );
+            })}
+
+            {/* Availability Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="relative bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 opacity-20">
+                <DoodleSparkle />
+              </div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-green-700">Available for freelance</span>
                 </div>
-                <div className="text-2xl md:text-4xl text-white break-all leading-tight group-hover:text-neutral-300 transition-colors">
-                  aevlinprince@gmail.com
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  I'm currently available for freelance projects and open to new opportunities.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Social Links Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl p-5 text-white relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white rounded-full opacity-10 -translate-y-1/2 translate-x-1/2" />
+              <div className="relative z-10">
+                <div className="text-sm mb-3 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Let's Connect
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {socialLinks.map((social) => {
+                    const Icon = social.icon;
+                    return (
+                      <a
+                        key={social.label}
+                        href={social.href}
+                        className="aspect-square bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all duration-300"
+                        aria-label={social.label}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
-          </a>
-        </motion.div>
-
-        {/* Social + Location - Clean Flat Design */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-8 md:space-y-10"
-        >
-          {/* Location */}
-          <div className="flex items-center gap-4 text-white">
-            <MapPin className="w-6 h-6 md:w-8 md:h-8 flex-shrink-0" />
-            <div>
-              <div className="text-xs uppercase tracking-wider text-neutral-500 mb-1">Location</div>
-              <div className="text-lg md:text-2xl uppercase tracking-wider">Kottayam, Kerala, India</div>
-            </div>
-          </div>
-
-          {/* Social Links */}
-          <div>
-            <div className="text-xs uppercase tracking-wider text-neutral-500 mb-4">Connect With Me</div>
-            <div className="flex items-center gap-4 md:gap-6">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.platform}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-3"
-                    aria-label={social.platform}
-                  >
-                    <Icon className="w-8 h-8 md:w-10 md:h-10 text-white group-hover:text-neutral-400 transition-colors group-hover:rotate-12 transition-transform" />
-                    <span className="text-sm md:text-base uppercase tracking-wider text-white group-hover:text-neutral-400 transition-colors hidden md:inline">
-                      {social.platform}
-                    </span>
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-        </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

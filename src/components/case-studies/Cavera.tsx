@@ -1,7 +1,8 @@
 import { motion } from "motion/react";
-import { ArrowLeft, ExternalLink } from "lucide-react";
-import caveraLogo from "figma:asset/7967b8a04ba5f5e1d66b00807451573dc19f5823.png";
+import { ArrowLeft, Figma, Palette, Layout, Users, Sparkles } from "lucide-react";
+import { DoodleStar, DoodleCircle, DoodleSparkle, DoodleUnderline } from "../Doodles";
 import caveraHero from "figma:asset/3f89057f37bf3828f2d1f36bf556d29c3879fea8.png";
+import caveraLogo from "figma:asset/7967b8a04ba5f5e1d66b00807451573dc19f5823.png";
 
 interface CaveraProps {
   onBack: () => void;
@@ -9,196 +10,278 @@ interface CaveraProps {
 
 export function Cavera({ onBack }: CaveraProps) {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Back button - Brutalist style */}
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-orange-50 to-white">
+      {/* Back button */}
       <motion.button
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         onClick={onBack}
-        className="fixed top-8 left-8 z-50 flex items-center gap-3 px-8 py-4 bg-black text-white shadow-brutal hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all uppercase tracking-wider"
+        className="fixed top-8 left-8 z-50 flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-amber-200 hover:border-orange-300 group"
       >
-        <ArrowLeft className="w-5 h-5" />
-        <span>Back to Portfolio</span>
+        <ArrowLeft className="w-5 h-5 text-gray-700 group-hover:-translate-x-1 transition-transform" />
+        <span className="text-gray-700">Back to Projects</span>
       </motion.button>
 
-      <div className="max-w-7xl mx-auto px-6 py-32">
+      <div className="max-w-5xl mx-auto px-6 py-24">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-32"
+          className="mb-16 relative"
         >
-          {/* Category Tag */}
-          <div className="mb-16">
-            <div className="inline-flex items-center gap-3 bg-black text-white px-8 py-4">
-              <span className="uppercase tracking-wider text-sm">E-Commerce Design</span>
-            </div>
-          </div>
+          <motion.div
+            className="absolute -top-8 -right-8 text-orange-300 opacity-20 hidden lg:block"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          >
+            <DoodleStar />
+          </motion.div>
 
           {/* Logo */}
-          <div className="mb-16">
-            <img src={caveraLogo} alt="Cavera Logo" className="h-24 md:h-32 w-auto brightness-0" />
+          <div className="mb-8 flex justify-center">
+            <img src={caveraLogo} alt="Cavera Logo" className="h-16 w-auto brightness-[0.3] contrast-125" />
           </div>
 
-          {/* Title */}
-          <h1 className="text-black mb-12 leading-[0.85]">
-            CAVERA
-          </h1>
-
-          {/* Description */}
-          <p className="text-3xl text-neutral-600 max-w-4xl leading-relaxed mb-16">
-            A Figma design concept for a premium fashion brand combining elegant minimalism with modern e-commerce functionality for a sophisticated shopping experience.
-          </p>
-
-          {/* Meta Info Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-32">
-            {[
-              { label: "Role", value: "UI/UX Designer" },
-              { label: "Timeline", value: "3 Weeks" },
-              { label: "Tools", value: "Figma" },
-              { label: "Type", value: "E-Commerce" }
-            ].map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white p-8 shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
-              >
-                <div className="text-xs uppercase tracking-wider text-neutral-400 mb-3">{item.label}</div>
-                <div className="text-xl text-black">{item.value}</div>
-              </motion.div>
-            ))}
+          <div className="text-center mb-8">
+            <span className="inline-block px-5 py-2 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-700 rounded-full mb-4 border-2 border-amber-200">
+              Landing Page Design
+            </span>
+            <h1 className="mb-4 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+              Cavera
+            </h1>
+            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+              A sophisticated landing page design for a clothing store that blends modern minimalism 
+              with timeless elegance, creating an impactful first impression for fashion-forward customers.
+            </p>
           </div>
 
           {/* Hero Image */}
-          <div className="relative bg-neutral-100 shadow-brutal overflow-hidden">
-            <img
-              src={caveraHero}
-              alt="Cavera Interface Design"
-              className="w-full h-auto object-cover"
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white mb-12">
+            <img 
+              src={caveraHero} 
+              alt="Cavera website hero section" 
+              className="w-full h-auto"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+          </div>
+
+          {/* Key Metrics */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            {[
+              { icon: "🎯", label: "Role", value: "UI/UX Designer" },
+              { icon: "⏱️", label: "Timeline", value: "2 Weeks" },
+              { icon: "🛠️", label: "Tools", value: "Figma" },
+              { icon: "🎨", label: "Type", value: "E-Commerce" }
+            ].map((metric, index) => (
+              <motion.div
+                key={metric.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-2xl p-6 text-center border-2 border-amber-100 shadow-md hover:shadow-lg transition-shadow"
+              >
+                <div className="text-3xl mb-2">{metric.icon}</div>
+                <div className="text-sm text-gray-500 mb-1">{metric.label}</div>
+                <div className="text-gray-800">{metric.value}</div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
-        {/* Project Overview */}
+        {/* Overview */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-32"
+          className="mb-16 relative"
         >
-          <div className="grid md:grid-cols-12 gap-16">
-            <div className="md:col-span-4">
-              <h2 className="text-black mb-8 leading-tight">
-                PROJECT
-                <br />
-                <span className="text-outline">OVERVIEW</span>
-              </h2>
-            </div>
-            <div className="md:col-span-8 space-y-8">
-              <p className="text-2xl text-neutral-700 leading-loose">
-                Cavera is a conceptual fashion e-commerce platform designed entirely in Figma. The project focuses on creating a premium shopping experience that balances aesthetic elegance with functional e-commerce flows.
-              </p>
-              <p className="text-2xl text-neutral-700 leading-loose">
-                Through minimalist design principles, generous whitespace, and high-quality product imagery, Cavera delivers a sophisticated digital storefront for luxury fashion brands.
-              </p>
-            </div>
-          </div>
-        </motion.section>
+          <motion.div
+            className="absolute -left-8 top-12 text-amber-300 opacity-20 hidden lg:block"
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            <DoodleSparkle />
+          </motion.div>
 
-        {/* The Challenge */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-32"
-        >
-          <div className="bg-black text-white p-16 md:p-24 shadow-brutal">
-            <h2 className="text-white mb-16 leading-tight">
-              THE
-              <br />
-              CHALLENGE
-            </h2>
-            <div className="space-y-8 max-w-4xl">
-              <div className="flex gap-6">
-                <div className="text-6xl opacity-20">01</div>
-                <div>
-                  <h3 className="text-white mb-4">Premium Perception</h3>
-                  <p className="text-xl text-neutral-300 leading-relaxed">
-                    Creating a digital experience that reflects the luxury and quality of high-end fashion products
-                  </p>
-                </div>
-              </div>
-              <div className="h-px bg-white/20" />
-              <div className="flex gap-6">
-                <div className="text-6xl opacity-20">02</div>
-                <div>
-                  <h3 className="text-white mb-4">Product Discovery</h3>
-                  <p className="text-xl text-neutral-300 leading-relaxed">
-                    Designing intuitive browsing and filtering systems that don't overwhelm users with too many options
-                  </p>
-                </div>
-              </div>
-              <div className="h-px bg-white/20" />
-              <div className="flex gap-6">
-                <div className="text-6xl opacity-20">03</div>
-                <div>
-                  <h3 className="text-white mb-4">Conversion Optimization</h3>
-                  <p className="text-xl text-neutral-300 leading-relaxed">
-                    Streamlining the checkout flow while maintaining the premium brand experience throughout the journey
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* Design Solution */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-32"
-        >
-          <h2 className="text-black mb-16 leading-tight">
-            DESIGN
-            <br />
-            <span className="text-outline">SOLUTION</span>
+          <h2 className="mb-6 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent relative inline-block">
+            Project Overview
+            <motion.div 
+              className="absolute -bottom-2 left-0 text-orange-400 opacity-40"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+            >
+              <DoodleUnderline />
+            </motion.div>
           </h2>
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border-2 border-amber-200">
+            <p className="text-gray-700 leading-relaxed mb-6">
+              Cavera is a landing page concept for a premium clothing brand designed to capture 
+              attention and set the tone for the shopping experience. The design emphasizes clean lines, 
+              sophisticated color palettes, and elegant typography to create an impactful first impression 
+              that reflects the brand's commitment to quality and timeless style.
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="mb-3 text-gray-800 flex items-center gap-2">
+                  <Palette className="w-5 h-5 text-amber-600" />
+                  Design Goals
+                </h3>
+                <ul className="space-y-2 text-gray-600 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>Create a luxurious yet approachable brand identity</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>Showcase products with high-quality imagery and layout</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>Design a captivating hero section that converts visitors</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-3 text-gray-800 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-orange-600" />
+                  Target Audience
+                </h3>
+                <ul className="space-y-2 text-gray-600 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-600 mt-1">•</span>
+                    <span>Fashion-conscious individuals aged 25-40</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-600 mt-1">•</span>
+                    <span>Customers seeking quality over quantity</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-orange-600 mt-1">•</span>
+                    <span>Urban professionals with refined taste</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </motion.section>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-12 shadow-brutal">
-              <div className="text-6xl mb-8">✨</div>
-              <h3 className="text-black mb-6">Minimalist Aesthetic</h3>
-              <p className="text-xl text-neutral-600 leading-relaxed">
-                Clean layouts with generous whitespace that let product photography shine and create a premium feel
+        {/* Design Highlights */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <h2 className="mb-6 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            Design Highlights
+          </h2>
+          <div className="space-y-6">
+            <div className="border-l-4 border-amber-500 pl-6">
+              <h3 className="mb-2 text-gray-800">Impactful Hero Section</h3>
+              <p className="text-gray-600">
+                Dark, sophisticated background with compelling copy: "Where trends bloom, and your style 
+                becomes the story." The hero features lifestyle photography with warm, earthy tones that 
+                immediately establish the brand's premium positioning and capture visitor attention.
               </p>
             </div>
-
-            <div className="bg-white p-12 shadow-brutal">
-              <div className="text-6xl mb-8">🖼️</div>
-              <h3 className="text-black mb-6">Visual Storytelling</h3>
-              <p className="text-xl text-neutral-600 leading-relaxed">
-                Hero sections and lifestyle imagery that communicate brand values and product quality at first glance
+            <div className="border-l-4 border-orange-500 pl-6">
+              <h3 className="mb-2 text-gray-800">Editorial Visual Language</h3>
+              <p className="text-gray-600">
+                Arched frames showcase diverse models in curated outfits, creating a magazine-quality 
+                editorial feel that sets this landing page apart from typical e-commerce designs.
               </p>
             </div>
-
-            <div className="bg-white p-12 shadow-brutal">
-              <div className="text-6xl mb-8">🔍</div>
-              <h3 className="text-black mb-6">Smart Filtering</h3>
-              <p className="text-xl text-neutral-600 leading-relaxed">
-                Intuitive category navigation and filter options that help users find exactly what they're looking for
+            <div className="border-l-4 border-amber-600 pl-6">
+              <h3 className="mb-2 text-gray-800">Minimal Navigation</h3>
+              <p className="text-gray-600">
+                Clean navigation bar with essential links (Home, Shop, Sale, Blog, Showcase) 
+                and user actions (Cart, Login, Sign up) keeps focus on the hero content while maintaining usability.
               </p>
             </div>
-
-            <div className="bg-white p-12 shadow-brutal">
-              <div className="text-6xl mb-8">🛒</div>
-              <h3 className="text-black mb-6">Seamless Checkout</h3>
-              <p className="text-xl text-neutral-600 leading-relaxed">
-                Streamlined cart and checkout experience with clear progress indicators and trust signals
+            <div className="border-l-4 border-orange-400 pl-6">
+              <h3 className="mb-2 text-gray-800">Distinctive Branding</h3>
+              <p className="text-gray-600">
+                The Cavera wordmark features an elegant serif typeface that communicates sophistication 
+                and timeless style, working beautifully on both the dark hero and light backgrounds.
               </p>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Design System */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16 relative"
+        >
+          <motion.div
+            className="absolute -right-12 top-12 text-orange-300 opacity-20 hidden lg:block"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 4, repeat: Infinity }}
+          >
+            <DoodleCircle />
+          </motion.div>
+
+          <h2 className="mb-6 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            Design System
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl p-6 border-2 border-amber-100 shadow-md">
+              <h3 className="mb-4 text-gray-800 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+                  🎨
+                </div>
+                Color Palette
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-lg bg-[#1a1a1a] border-2 border-gray-300" />
+                  <div>
+                    <div className="text-sm text-gray-800">Primary Dark</div>
+                    <div className="text-xs text-gray-500">#1A1A1A</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-lg bg-[#f5f5f5] border-2 border-gray-300" />
+                  <div>
+                    <div className="text-sm text-gray-800">Background</div>
+                    <div className="text-xs text-gray-500">#F5F5F5</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-lg bg-white border-2 border-gray-300" />
+                  <div>
+                    <div className="text-sm text-gray-800">White</div>
+                    <div className="text-xs text-gray-500">#FFFFFF</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl p-6 border-2 border-orange-100 shadow-md">
+              <h3 className="mb-4 text-gray-800 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center">
+                  ✏️
+                </div>
+                Typography
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <div className="text-2xl mb-1" style={{ fontFamily: 'serif' }}>CAVERA</div>
+                  <div className="text-xs text-gray-500">Display - Serif</div>
+                </div>
+                <div>
+                  <div className="text-lg mb-1">Heading Text</div>
+                  <div className="text-xs text-gray-500">Headings - Sans Serif</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">Body copy and descriptions</div>
+                  <div className="text-xs text-gray-500">Body - Sans Serif Regular</div>
+                </div>
+              </div>
             </div>
           </div>
         </motion.section>
@@ -208,111 +291,108 @@ export function Cavera({ onBack }: CaveraProps) {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-32"
+          className="mb-16"
         >
-          <div className="grid md:grid-cols-12 gap-16">
-            <div className="md:col-span-5">
-              <h2 className="text-black mb-12 leading-tight sticky top-32">
-                KEY
-                <br />
-                <span className="text-outline">FEATURES</span>
-              </h2>
-            </div>
-            <div className="md:col-span-7 space-y-16">
-              <div>
-                <div className="h-2 w-24 bg-black mb-6" />
-                <h3 className="text-black mb-6">Landing Page</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Impactful hero section with seasonal collections, editorial-style product showcases, and clear calls-to-action that drive exploration.
-                </p>
-              </div>
-
-              <div>
-                <div className="h-2 w-24 bg-black mb-6" />
-                <h3 className="text-black mb-6">Product Catalog</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Grid-based product listings with hover effects, quick view options, and flexible filtering by category, price, size, and color.
-                </p>
-              </div>
-
-              <div>
-                <div className="h-2 w-24 bg-black mb-6" />
-                <h3 className="text-black mb-6">Product Detail</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Comprehensive product pages with multiple image views, size guides, detailed descriptions, and styling suggestions.
-                </p>
-              </div>
-
-              <div>
-                <div className="h-2 w-24 bg-black mb-6" />
-                <h3 className="text-black mb-6">Shopping Cart</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Clean cart interface with product summaries, quantity adjustments, and recommended items to increase order value.
-                </p>
-              </div>
-            </div>
+          <h2 className="mb-6 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            Key Features
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "🎯",
+                title: "Clear CTAs",
+                description: "\"Explore Spring 2025 collection\" and \"Discover New Arrivals\" buttons provide clear next steps for engaged visitors"
+              },
+              {
+                icon: "📱",
+                title: "Responsive Layout",
+                description: "Landing page structure is designed to adapt gracefully across desktop, tablet, and mobile devices"
+              },
+              {
+                icon: "🖼️",
+                title: "Editorial Presentation",
+                description: "Magazine-style arched frames create a unique, memorable first impression that stands out"
+              },
+              {
+                icon: "🎨",
+                title: "Sophisticated Palette",
+                description: "Dark hero with warm accent tones creates visual depth and premium brand perception"
+              },
+              {
+                icon: "✨",
+                title: "Visual Interest",
+                description: "Thoughtful composition and spacing create visual rhythm that guides the eye naturally"
+              },
+              {
+                icon: "🔍",
+                title: "Strong Hierarchy",
+                description: "Strategic typography and layout ensure the headline and CTAs capture immediate attention"
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border-2 border-amber-100 hover:border-orange-200 transition-colors"
+              >
+                <div className="text-3xl mb-3">{feature.icon}</div>
+                <h3 className="mb-2 text-gray-800">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
+              </motion.div>
+            ))}
           </div>
         </motion.section>
 
-        {/* Design Process */}
+        {/* Design Decisions */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-32"
+          className="mb-16"
         >
-          <h2 className="text-black mb-16 leading-tight">
-            DESIGN
-            <br />
-            <span className="text-outline">PROCESS</span>
+          <h2 className="mb-6 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            Design Decisions
           </h2>
-
-          <div className="space-y-8">
-            <div className="flex gap-8 items-start">
-              <div className="text-7xl text-outline shrink-0">01</div>
-              <div className="pt-8">
-                <h3 className="text-black mb-4">Brand Research</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed max-w-3xl">
-                  Studied luxury fashion brands and their digital presence to understand what makes premium e-commerce experiences feel elevated and trustworthy.
-                </p>
-              </div>
-            </div>
-
-            <div className="h-px bg-neutral-200" />
-
-            <div className="flex gap-8 items-start">
-              <div className="text-7xl text-outline shrink-0">02</div>
-              <div className="pt-8">
-                <h3 className="text-black mb-4">User Journey Mapping</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed max-w-3xl">
-                  Mapped the complete shopping journey from landing page through checkout, identifying key decision points and potential friction areas.
-                </p>
-              </div>
-            </div>
-
-            <div className="h-px bg-neutral-200" />
-
-            <div className="flex gap-8 items-start">
-              <div className="text-7xl text-outline shrink-0">03</div>
-              <div className="pt-8">
-                <h3 className="text-black mb-4">Visual Design</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed max-w-3xl">
-                  Developed a minimalist design system with neutral colors, elegant typography, and spacious layouts that emphasize product photography.
-                </p>
-              </div>
-            </div>
-
-            <div className="h-px bg-neutral-200" />
-
-            <div className="flex gap-8 items-start">
-              <div className="text-7xl text-outline shrink-0">04</div>
-              <div className="pt-8">
-                <h3 className="text-black mb-4">Responsive Design</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed max-w-3xl">
-                  Created mobile-first layouts ensuring the premium experience translates seamlessly across all device sizes and shopping contexts.
-                </p>
-              </div>
-            </div>
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border-2 border-amber-200">
+            <ul className="space-y-4 text-gray-700">
+              <li className="flex items-start gap-3">
+                <span className="text-2xl">🌑</span>
+                <div>
+                  <strong>Dark Hero Background:</strong> Creates immediate visual impact and drama, making 
+                  the headline and featured imagery pop for a memorable first impression
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-2xl">🏛️</span>
+                <div>
+                  <strong>Arched Frames:</strong> Architectural arch shapes add elegance and sophistication 
+                  while naturally drawing the eye to featured looks and creating visual interest
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-2xl">🎭</span>
+                <div>
+                  <strong>Diverse Representation:</strong> Featuring models of different backgrounds creates 
+                  relatability and reflects modern brand values for a broader appeal
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-2xl">📝</span>
+                <div>
+                  <strong>Emotional Messaging:</strong> "Where trends bloom, and your style becomes the story" 
+                  connects emotionally rather than just promoting products, creating brand affinity
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-2xl">🎯</span>
+                <div>
+                  <strong>Focused Layout:</strong> Minimal navigation and clean layout keep visitor attention 
+                  on the hero message and conversion CTAs
+                </div>
+              </li>
+            </ul>
           </div>
         </motion.section>
 
@@ -321,39 +401,39 @@ export function Cavera({ onBack }: CaveraProps) {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-32"
+          className="mb-16"
         >
-          <div className="bg-white p-16 md:p-24 shadow-brutal">
-            <h2 className="text-black mb-16 leading-tight">
-              KEY
-              <br />
-              <span className="text-outline">LEARNINGS</span>
-            </h2>
-            <div className="grid md:grid-cols-2 gap-12 max-w-5xl">
-              <div>
-                <h3 className="text-black mb-4">Less is More</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  In luxury e-commerce, restraint in design creates sophistication. Every element must earn its place on the page.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-black mb-4">Photography Quality</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Product photography is the hero—the interface should frame and enhance images, not compete with them for attention.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-black mb-4">Trust Building</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Premium pricing requires premium trust signals—from security badges to clear return policies integrated naturally.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-black mb-4">Mobile Commerce</h3>
-                <p className="text-xl text-neutral-600 leading-relaxed">
-                  Luxury doesn't mean desktop-only—mobile shoppers expect the same elevated experience on smaller screens.
-                </p>
-              </div>
+          <h2 className="mb-6 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            Key Learnings
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl p-6 border-2 border-amber-100 shadow-md">
+              <h3 className="mb-3 text-gray-800">First Impressions Matter</h3>
+              <p className="text-gray-600 text-sm">
+                Landing pages need immediate impact—the dark hero with compelling copy and editorial 
+                imagery creates instant brand recognition and sets expectations
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 border-2 border-orange-100 shadow-md">
+              <h3 className="mb-3 text-gray-800">Editorial Approach</h3>
+              <p className="text-gray-600 text-sm">
+                Treating fashion e-commerce like editorial content elevates the brand perception 
+                and creates a more aspirational, engaging experience
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 border-2 border-amber-100 shadow-md">
+              <h3 className="mb-3 text-gray-800">Minimalist Power</h3>
+              <p className="text-gray-600 text-sm">
+                Restraint in navigation and layout elements keeps focus on what matters most—the 
+                brand message and the call to action
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 border-2 border-orange-100 shadow-md">
+              <h3 className="mb-3 text-gray-800">Brand Consistency</h3>
+              <p className="text-gray-600 text-sm">
+                Every element from typography to color choices reinforces the sophisticated, 
+                timeless brand identity throughout the landing page
+              </p>
             </div>
           </div>
         </motion.section>
@@ -366,13 +446,13 @@ export function Cavera({ onBack }: CaveraProps) {
           className="text-center"
         >
           <a 
-            href="https://www.figma.com/design/5P2jLJd1cG0tIRY7YN5tpo/Cavera?node-id=0-1&t=lxNBv5vBqI5TfNWA-1"
+            href="https://www.figma.com/design/YOUR_FIGMA_LINK"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-4 px-16 py-8 bg-black text-white shadow-brutal hover:translate-x-3 hover:translate-y-3 hover:shadow-none transition-all uppercase tracking-wider"
+            className="inline-flex px-8 py-4 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-white rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 items-center gap-2"
           >
+            <Figma className="w-5 h-5" />
             <span>View on Figma</span>
-            <ExternalLink className="w-6 h-6" />
           </a>
         </motion.div>
       </div>

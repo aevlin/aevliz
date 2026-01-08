@@ -1,200 +1,286 @@
-import { motion } from "motion/react";
-import { Palette } from "lucide-react";
-
-// Import images using figma:asset scheme
-import scrapDriveImg from "figma:asset/3043ef5719405c1d985aa81c4af785ba9b315570.png";
+import { motion, AnimatePresence } from "motion/react";
+import { Palette, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { DoodleStar, DoodleSparkle } from "./Doodles";
+import { useRef, useState } from "react";
 import bugsToBucksImg from "figma:asset/8fc67c24ca25caa337d8296d96344d4cd052d0d8.png";
 import firewalledGardenImg from "figma:asset/cc6dfb61437e98424f2f983b63d4de507eb4d6d3.png";
-import arcadeMarketImg from "figma:asset/7d0aa58a4d9ade4a35a6d3134d09f9d5ad035d76.png";
-import sharingWarmthImg from "figma:asset/713d18e433370fb2a9bf8d2c74ffabce167a063d.png";
-import womenForWomenImg from "figma:asset/3745bba4d1bfc0c2dd12885f5c883cff03bee8ec.png";
+import scrapDriveImg from "figma:asset/3043ef5719405c1d985aa81c4af785ba9b315570.png";
+import didYouKnowImg from "figma:asset/ee8213233cb0a2302ed24bf131bbc7d87b54502b.png";
+import torqueImg from "figma:asset/9137115c1d00f4217d4f828859652240628bb14d.png";
+import nilavilakkuImg from "figma:asset/3745bba4d1bfc0c2dd12885f5c883cff03bee8ec.png";
+
+interface Design {
+  title: string;
+  category: string;
+  image: string;
+  color: string;
+}
 
 export function DesignWorks() {
-  const works = [
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [selectedDesign, setSelectedDesign] = useState<Design | null>(null);
+
+  const designs = [
     {
-      title: "Scrap Collection Drive",
-      category: "Social Campaign",
-      organization: "NSS Units 215 & 218",
-      image: scrapDriveImg,
-      color: "bg-green-600"
-    },
-    {
-      title: "Bugs To Bucks",
-      category: "Event Poster",
-      organization: "IEEE Computer Society",
+      title: "Bugs to Bucks",
+      category: "IEEE Event",
       image: bugsToBucksImg,
-      color: "bg-blue-600"
+      color: "from-purple-500 to-pink-500",
     },
     {
       title: "The Firewalled Garden",
       category: "Competition Poster",
-      organization: "IEEE SB AJCE",
       image: firewalledGardenImg,
-      color: "bg-purple-600"
+      color: "from-purple-500 to-blue-500",
     },
     {
-      title: "Arcade Marketplace",
-      category: "Event Poster",
-      organization: "Amal Jyothi College & NSS",
-      image: arcadeMarketImg,
-      color: "bg-orange-600"
+      title: "Did You Know?",
+      category: "IEEE Tech Facts",
+      image: didYouKnowImg,
+      color: "from-blue-500 to-cyan-500",
     },
     {
-      title: "Sharing Warmth",
-      category: "Social Initiative",
-      organization: "NSS Units 215 & 218",
-      image: sharingWarmthImg,
-      color: "bg-yellow-600"
+      title: "Torque",
+      category: "RC Racing Event",
+      image: torqueImg,
+      color: "from-slate-600 to-blue-600",
     },
     {
-      title: "Women For Women",
-      category: "Event Poster",
-      organization: "IEEE SB AJCE - WIE",
-      image: womenForWomenImg,
-      color: "bg-pink-600"
-    }
+      title: "Nilavilakku",
+      category: "IEEE WIE Event",
+      image: nilavilakkuImg,
+      color: "from-pink-500 to-purple-500",
+    },
+    {
+      title: "Scrap Collection Drive",
+      category: "NSS Campaign",
+      image: scrapDriveImg,
+      color: "from-green-500 to-orange-500",
+    },
   ];
 
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 400;
+      scrollContainerRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <section className="relative py-16 md:py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <section className="py-24 px-6 bg-gradient-to-b from-white via-orange-50 to-pink-50 relative overflow-hidden">
+      {/* Doodle decorations */}
+      <motion.div
+        className="absolute top-20 left-10 text-orange-300 opacity-20 hidden lg:block"
+        animate={{ rotate: [0, 360] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      >
+        <DoodleStar />
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-20 right-20 text-pink-300 opacity-20 hidden lg:block"
+        animate={{ y: [0, -20, 0] }}
+        transition={{ duration: 4, repeat: Infinity }}
+      >
+        <DoodleSparkle />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto relative">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12 md:mb-16"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-3 bg-black text-white px-5 py-2.5 mb-8 shadow-brutal">
-            <Palette className="w-3.5 h-3.5" />
-            <span className="uppercase tracking-wider text-xs">Design Portfolio</span>
-          </div>
-
-          <h2 className="text-black leading-[0.85] text-[60px] md:text-[100px] mb-6">
-            MORE
-            <br />
-            <span className="text-outline">DESIGN</span>
-            <br />
-            WORKS
+          <span className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-orange-100 to-pink-100 text-orange-600 rounded-full mb-6 border-2 border-orange-200">
+            <Palette className="w-4 h-4" />
+            Design Works
+          </span>
+          <h2 className="mb-4 bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
+            Posters & Graphics
           </h2>
-
-          <p className="text-lg md:text-xl text-neutral-600 max-w-2xl leading-relaxed">
-            Selected poster designs created for various organizations and events.
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            A collection of my poster designs and graphic works showcasing creativity and visual storytelling 🎨
           </p>
         </motion.div>
-      </div>
 
-      {/* Horizontal Scrollable Gallery */}
-      <div className="relative mb-12 md:mb-16">
-        <div className="overflow-x-auto overflow-y-hidden pb-4 px-4 md:px-6 scrollbar-custom">
-          <div className="flex gap-6 md:gap-8 w-max">
-            {works.map((work, index) => (
+        {/* Scroll Navigation */}
+        <div className="flex justify-end gap-3 mb-6">
+          <button
+            onClick={() => scroll("left")}
+            className="group w-12 h-12 bg-white rounded-full shadow-lg border-2 border-orange-100 flex items-center justify-center hover:bg-gradient-to-r hover:from-orange-500 hover:to-pink-500 hover:border-transparent transition-all duration-300 hover:scale-110"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors" />
+          </button>
+          <button
+            onClick={() => scroll("right")}
+            className="group w-12 h-12 bg-white rounded-full shadow-lg border-2 border-orange-100 flex items-center justify-center hover:bg-gradient-to-r hover:from-orange-500 hover:to-pink-500 hover:border-transparent transition-all duration-300 hover:scale-110"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors" />
+          </button>
+        </div>
+
+        {/* Horizontal Scrolling Container */}
+        <div className="relative">
+          {/* Gradient fade on edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-orange-50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-pink-50 to-transparent z-10 pointer-events-none" />
+
+          <motion.div
+            ref={scrollContainerRef}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x snap-mandatory"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {designs.map((design, index) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={design.title}
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="flex-shrink-0 w-[320px] md:w-[400px] bg-white shadow-brutal group cursor-pointer"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group flex-shrink-0 snap-center"
               >
-                <div className="relative h-[450px] md:h-[550px] overflow-hidden bg-neutral-100">
-                  <img
-                    src={work.image}
-                    alt={work.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className={`absolute inset-0 ${work.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                </div>
-                
-                <div className="p-6 md:p-8 bg-white">
-                  <div className="text-xs uppercase tracking-wider text-neutral-500 mb-2">
-                    {work.organization}
+                <button
+                  onClick={() => setSelectedDesign(design)}
+                  className="relative w-80 h-[500px] bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-pink-200 cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative h-full overflow-hidden">
+                    <img
+                      src={design.image}
+                      alt={design.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
+                    />
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
                   </div>
-                  <h3 className="text-2xl md:text-3xl uppercase tracking-wider leading-tight mb-2">
-                    {work.title}
-                  </h3>
-                  <div className="text-sm text-neutral-600">{work.category}</div>
-                </div>
+
+                  {/* Content overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
+                    <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                      <span className={`inline-block px-3 py-1 bg-gradient-to-r ${design.color} rounded-full text-xs mb-3`}>
+                        {design.category}
+                      </span>
+                      <h3 className="text-white mb-2">{design.title}</h3>
+                      <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        Click to view full design
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Hover effect border */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${design.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none`} />
+                </button>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-        
-        {/* Scroll hint */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-neutral-500 uppercase tracking-wider">
-            ← Scroll to explore more →
-          </p>
-        </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        {/* Stats */}
+        {/* Scroll indicator */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-8"
         >
-          {[
-            { value: "50+", label: "Posters" },
-            { value: "15+", label: "Brands" },
-            { value: "6", label: "Organizations" },
-            { value: "110+", label: "Total Works" }
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="bg-black text-white p-6 md:p-8 shadow-brutal text-center hover:translate-y-2 transition-all"
+          <p className="text-gray-500 text-sm flex items-center justify-center gap-2">
+            <motion.span
+              animate={{ x: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
             >
-              <div className="text-4xl md:text-5xl mb-2 md:mb-3 leading-none">{stat.value}</div>
-              <div className="text-xs uppercase tracking-wider text-neutral-400">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Info Box */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white p-8 md:p-12 shadow-brutal"
-        >
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="text-xs uppercase tracking-wider text-neutral-500 mb-4">Note</div>
-            <p className="text-xl md:text-2xl text-neutral-800 leading-relaxed">
-              All designs are created entirely in <span className="bg-black text-white px-2 py-1">Figma</span> as 
-              UI/UX concepts and visual communications for various organizations.
-            </p>
-          </div>
+              ←
+            </motion.span>
+            Scroll to explore more designs
+            <motion.span
+              animate={{ x: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              →
+            </motion.span>
+          </p>
         </motion.div>
       </div>
 
       <style>{`
-        .scrollbar-custom {
-          scrollbar-width: thin;
-          scrollbar-color: #000 #e5e5e5;
-        }
-
-        .scrollbar-custom::-webkit-scrollbar {
-          height: 8px;
-        }
-
-        .scrollbar-custom::-webkit-scrollbar-track {
-          background: #e5e5e5;
-        }
-
-        .scrollbar-custom::-webkit-scrollbar-thumb {
-          background: #000;
-        }
-
-        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-          background: #333;
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
+
+      {/* Full Screen Modal */}
+      <AnimatePresence>
+        {selectedDesign && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm"
+            onClick={() => setSelectedDesign(null)}
+          >
+            {/* Close button */}
+            <motion.button
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0, rotate: 90 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              onClick={() => setSelectedDesign(null)}
+              className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white backdrop-blur-md border border-white/20 hover:scale-110 transition-all duration-300 z-50"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6" />
+            </motion.button>
+
+            {/* Image container */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="relative max-w-5xl max-h-[90vh] w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Design info */}
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                className="absolute -top-16 left-0 right-0 text-center z-10"
+              >
+                <span className={`inline-block px-4 py-2 bg-gradient-to-r ${selectedDesign.color} rounded-full text-sm mb-2 text-white`}>
+                  {selectedDesign.category}
+                </span>
+                <h3 className="text-white">{selectedDesign.title}</h3>
+              </motion.div>
+
+              {/* Full size image */}
+              <div className="relative w-full h-full flex items-center justify-center">
+                <img
+                  src={selectedDesign.image}
+                  alt={selectedDesign.title}
+                  className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-xl shadow-2xl"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
