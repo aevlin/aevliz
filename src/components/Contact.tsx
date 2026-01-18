@@ -1,169 +1,110 @@
-import { motion } from "motion/react";
-import { Mail, Linkedin, Github, MapPin, Sparkles } from "lucide-react";
-import { DoodleHeart, DoodleStar, DoodleSparkle } from "./Doodles";
+import { motion, useScroll, useTransform } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
 
 export function Contact() {
-  const socialLinks = [
-    { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/aevlin-prince-146887291/", color: "from-blue-500 to-blue-600" },
-    { icon: Github, label: "GitHub", href: "https://github.com/aevlin", color: "from-gray-700 to-gray-900" },
-    { icon: Mail, label: "Email", href: "mailto:aevlinprince@gmail.com", color: "from-purple-500 to-pink-500" },
-  ];
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "aevlinprince@gmail.com",
-      href: "mailto:aevlinprince@gmail.com",
-      color: "from-purple-500 to-pink-500",
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Kottayam, Kerala, India",
-      href: "#",
-      color: "from-orange-500 to-purple-500",
-    },
+  const yTitle = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const yContent = useTransform(scrollYProgress, [0, 1], [200, -50]);
+  const scaleTitle = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
+
+  const socialLinks = [
+    { label: "LINKEDIN", href: "https://www.linkedin.com/in/aevlin-prince-146887291/" },
+    { label: "GITHUB", href: "https://github.com/aevlin" },
+    { label: "EMAIL", href: "mailto:aevlinprince@gmail.com" },
   ];
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-b from-pink-50 via-purple-50 to-white relative overflow-hidden">
-      {/* Doodle decorations */}
-      <motion.div
-        className="absolute top-20 right-20 text-pink-300 opacity-20 hidden lg:block"
-        animate={{ rotate: [0, 10, -10, 0] }}
-        transition={{ duration: 3, repeat: Infinity }}
-      >
-        <DoodleHeart />
-      </motion.div>
+    <section ref={containerRef} className="py-40 px-6 bg-white text-black relative overflow-hidden perspective-1000" id="contact">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+        .perspective-1000 { perspective: 1000px; }
+      `}</style>
 
-      <motion.div
-        className="absolute bottom-32 left-10 text-purple-300 opacity-20 hidden lg:block"
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity }}
-      >
-        <DoodleStar />
-      </motion.div>
-
-      <motion.div
-        className="absolute top-1/2 right-10 text-orange-300 opacity-15 hidden lg:block"
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-      >
-        <DoodleSparkle />
-      </motion.div>
-
-      <div className="max-w-7xl mx-auto relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block px-5 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-600 rounded-full mb-6 border-2 border-purple-200">
-            Get In Touch
-          </span>
-          <h2 className="mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Let's Work Together
+      <div className="max-w-7xl mx-auto">
+        <motion.div style={{ y: yTitle, scale: scaleTitle }} className="mb-24">
+          <motion.span 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="block text-gray-500 font-bebas text-3xl mb-4 tracking-widest"
+          >
+            CONTACT
+          </motion.span>
+          <h2 className="text-[10vw] md:text-[8rem] font-bebas leading-[0.8] mb-12 text-black break-words mix-blend-difference">
+            LET'S WORK TOGETHER
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Have a project in mind? I'd love to hear about it. Drop me a message and let's create something amazing together! ✨
-          </p>
+          <div className="h-1 w-full bg-black mb-12"></div>
         </motion.div>
 
-        <div className="max-w-2xl mx-auto">
-          {/* Contact Info & Cards */}
+        <motion.div 
+          style={{ y: yContent }}
+          className="grid md:grid-cols-2 gap-24"
+        >
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="space-y-6"
           >
-            {/* Contact info cards */}
-            {contactInfo.map((info, index) => {
-              const Icon = info.icon;
-              return (
-                <motion.a
-                  key={info.label}
-                  href={info.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group block bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-purple-100 hover:border-pink-200"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${info.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-grow">
-                      <div className="text-gray-500 text-sm mb-1">{info.label}</div>
-                      <div className="text-gray-800 group-hover:text-purple-600 transition-colors">
-                        {info.value}
-                      </div>
-                    </div>
-                  </div>
-                </motion.a>
-              );
-            })}
+            <p className="text-3xl md:text-5xl font-bebas text-gray-600 leading-tight mb-16 max-w-lg">
+              HAVE A PROJECT IN MIND? I'D LOVE TO HEAR ABOUT IT. DROP ME A MESSAGE AND LET'S CREATE SOMETHING AMAZING.
+            </p>
 
-            {/* Availability Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="relative bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 overflow-hidden"
-            >
-              <div className="absolute top-4 right-4 opacity-20">
-                <DoodleSparkle />
+            <div className="mb-16">
+              <h3 className="text-gray-500 font-bebas text-2xl mb-4 tracking-widest">STATUS</h3>
+              <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-lg inline-block border border-black/10">
+                <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
+                <span className="text-3xl md:text-4xl font-bebas text-black">AVAILABLE FOR FREELANCE</span>
               </div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-green-700">Available for freelance</span>
-                </div>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  I'm currently available for freelance projects and open to new opportunities.
-                </p>
-              </div>
-            </motion.div>
+            </div>
 
-            {/* Social Links Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl p-5 text-white relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-white rounded-full opacity-10 -translate-y-1/2 translate-x-1/2" />
-              <div className="relative z-10">
-                <div className="text-sm mb-3 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" />
-                  Let's Connect
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {socialLinks.map((social) => {
-                    const Icon = social.icon;
-                    return (
-                      <a
-                        key={social.label}
-                        href={social.href}
-                        className="aspect-square bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all duration-300"
-                        aria-label={social.label}
-                      >
-                        <Icon className="w-4 h-4" />
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
-            </motion.div>
+            <div>
+              <h3 className="text-gray-500 font-bebas text-2xl mb-4 tracking-widest">LOCATION</h3>
+              <p className="text-4xl md:text-6xl font-bebas text-black">KOTTAYAM, KERALA, INDIA</p>
+            </div>
           </motion.div>
-        </div>
+
+          <div className="flex flex-col justify-between">
+            <div>
+               <h3 className="text-gray-500 font-bebas text-2xl mb-8 tracking-widest">SOCIALS</h3>
+               <div className="space-y-6">
+                 {socialLinks.map((social, index) => (
+                   <motion.a
+                     key={social.label}
+                     href={social.href}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     initial={{ opacity: 0, y: 20 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true }}
+                     transition={{ delay: index * 0.1 }}
+                     className="group flex items-center justify-between py-6 border-b border-gray-200 hover:border-black transition-colors duration-300"
+                   >
+                     <span className="text-5xl md:text-7xl font-bebas text-black group-hover:pl-6 transition-all duration-300">
+                       {social.label}
+                     </span>
+                     <ArrowUpRight className="w-12 h-12 text-gray-400 group-hover:text-black group-hover:rotate-45 transition-all duration-300" />
+                   </motion.a>
+                 ))}
+               </div>
+            </div>
+
+            <div className="mt-16 md:mt-0">
+               <a 
+                 href="mailto:aevlinprince@gmail.com" 
+                 className="block text-2xl md:text-4xl text-gray-400 hover:text-black transition-colors font-bebas tracking-wide"
+               >
+                 aevlinprince@gmail.com
+               </a>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

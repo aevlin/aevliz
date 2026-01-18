@@ -1,7 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Figma } from "lucide-react";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
-import { DoodleStar, DoodleCircle, DoodleSparkle, DoodleUnderline } from "../Doodles";
+import { ArrowLeft, Figma, ArrowUpRight, Crosshair, Monitor } from "lucide-react";
 import aevflixLogo from "figma:asset/811724d66642564227af9e8c0be5e21098f06ba7.png";
 import aevflixHome from "figma:asset/41acdb714fa1000a46e63447afa31354c55a16d4.png";
 import aevflixDetail from "figma:asset/86778278013cf222446ddeb883153a3a19d6c644.png";
@@ -13,538 +11,212 @@ interface AEVFLIXProps {
 
 export function AEVFLIX({ onBack }: AEVFLIXProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 via-purple-50 to-white">
-      {/* Back button */}
-      <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        onClick={onBack}
-        className="fixed top-8 left-8 z-50 flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-red-200 hover:border-purple-300 group"
-      >
-        <ArrowLeft className="w-5 h-5 text-gray-700 group-hover:-translate-x-1 transition-transform" />
-        <span className="text-gray-700">Back to Projects</span>
-      </motion.button>
+    <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+      `}</style>
 
-      <div className="max-w-5xl mx-auto px-6 py-24">
+      {/* Fixed Header / Nav */}
+      <motion.div 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/90 backdrop-blur-md border-b border-black/10"
+      >
+        <button
+            onClick={onBack}
+            className="flex items-center gap-2 group"
+        >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <span className="font-bebas text-xl tracking-wide">BACK TO INDEX</span>
+        </button>
+        <div className="hidden md:flex items-center gap-4 font-mono text-[10px] tracking-widest text-gray-500">
+            <span>SYS.STATUS: ONLINE</span>
+            <span>ID: PRJ-002</span>
+        </div>
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 relative border-x border-black/5 min-h-screen">
+        {/* Background Grid */}
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-16 relative"
+          transition={{ duration: 0.6 }}
+          className="relative z-10 mb-24"
         >
-          <motion.div
-            className="absolute -top-8 -right-8 text-red-300 opacity-20 hidden lg:block"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <DoodleStar />
-          </motion.div>
-
-          {/* Logo */}
-          <div className="mb-8 flex justify-center">
-            <img src={aevflixLogo} alt="AEVFLIX Logo" className="h-20 md:h-24 w-auto" />
+          <div className="flex flex-col md:flex-row gap-12 items-end mb-16 border-b-2 border-black pb-12">
+            <div className="flex-1">
+              <div className="flex items-center gap-4 mb-6">
+                 <img src={aevflixLogo} alt="AEVFLIX Logo" className="h-12 w-auto grayscale" />
+                 <span className="font-mono text-xs bg-black text-white px-2 py-1">WEB APPLICATION</span>
+              </div>
+              <h1 className="text-8xl md:text-[10rem] font-bebas leading-[0.8] mb-6">
+                AEVFLIX
+              </h1>
+              <p className="font-mono text-sm md:text-base text-gray-600 max-w-2xl leading-relaxed uppercase tracking-wide">
+                Streaming platform architecture reimagining content discovery through high-density visual data hierarchy.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-x-12 gap-y-4 w-full md:w-auto border-l border-black/10 pl-8">
+              {[
+                { label: "ROLE", value: "UI/UX DESIGNER" },
+                { label: "TIMELINE", value: "4 WEEKS" },
+                { label: "STACK", value: "FIGMA" },
+                { label: "VERSION", value: "v2.1.0" }
+              ].map((metric) => (
+                <div key={metric.label}>
+                  <div className="text-[10px] font-mono tracking-widest text-gray-400 mb-1">{metric.label}</div>
+                  <div className="text-xl font-bebas tracking-wide">{metric.value}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="text-center mb-8">
-            <span className="inline-block px-5 py-2 bg-gradient-to-r from-red-100 to-purple-100 text-red-700 rounded-full mb-4 border-2 border-red-200">
-              Web UI Design
-            </span>
-            <h1 className="mb-4 bg-gradient-to-r from-red-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              AEVFLIX
-            </h1>
-            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-              A Figma design concept reimagining streaming platforms with enhanced discovery features 
-              and personalized viewing experiences.
-            </p>
-          </div>
+          {/* Technical Hero Image Frame */}
+          <div className="relative w-full bg-gray-100 mb-24 group border border-black">
+             {/* Technical Markers */}
+             <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-black z-20" />
+             <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-black z-20" />
+             <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-black z-20" />
+             <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-black z-20" />
+             
+             {/* Crosshair Overlay */}
+             <div className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                   <Crosshair className="w-12 h-12 text-white drop-shadow-md" strokeWidth={1} />
+                </div>
+                {/* Grid Overlay */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+             </div>
 
-          {/* Hero Image */}
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white mb-12">
             <img 
               src={aevflixHome} 
-              alt="AEVFLIX home screen" 
-              className="w-full h-auto"
+              alt="AEVFLIX Home" 
+              className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 block"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
-          </div>
-
-          {/* Key Metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {[
-              { icon: "🎯", label: "Role", value: "UI/UX Designer" },
-              { icon: "⏱️", label: "Timeline", value: "4 Weeks" },
-              { icon: "🛠️", label: "Tools", value: "Figma" },
-              { icon: "🎨", label: "Type", value: "Web UI" }
-            ].map((metric, index) => (
-              <motion.div
-                key={metric.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 text-center border-2 border-red-100 shadow-md hover:shadow-lg transition-shadow"
-              >
-                <div className="text-3xl mb-2">{metric.icon}</div>
-                <div className="text-sm text-gray-500 mb-1">{metric.label}</div>
-                <div className="text-gray-800">{metric.value}</div>
-              </motion.div>
-            ))}
+            
+            {/* Tag */}
+            <div className="absolute bottom-4 right-4 bg-white border border-black px-2 py-1 z-20">
+               <span className="font-mono text-[10px] uppercase">FIG-IMG-002</span>
+            </div>
           </div>
         </motion.div>
 
         {/* UI Showcase Section */}
         <motion.section
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-20"
+          className="mb-32 relative"
         >
-          <h2 className="mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent relative inline-block">
-            Final Design
-            <motion.div 
-              className="absolute -bottom-2 left-0 text-purple-400 opacity-40"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-            >
-              <DoodleUnderline />
-            </motion.div>
-          </h2>
-          <p className="text-gray-600 mb-8">
-            A complete streaming platform experience with home, detail, and profile screens
-          </p>
-
-          <div className="space-y-8">
-            {/* Home Screen */}
-            <div className="bg-gradient-to-br from-red-50 to-purple-50 rounded-3xl p-4 md:p-8 shadow-2xl border-2 border-red-200">
-              <img 
-                src={aevflixHome} 
-                alt="AEVFLIX home screen" 
-                className="w-full h-auto rounded-xl"
-              />
-            </div>
-
-            {/* Detail Screen */}
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-4 md:p-8 shadow-2xl border-2 border-purple-200">
-              <img 
-                src={aevflixDetail} 
-                alt="AEVFLIX detail screen" 
-                className="w-full h-auto rounded-xl"
-              />
-            </div>
-
-            {/* Profiles Screen */}
-            <div className="bg-gradient-to-br from-pink-50 to-red-50 rounded-3xl p-4 md:p-8 shadow-2xl border-2 border-pink-200">
-              <img 
-                src={aevflixProfiles} 
-                alt="AEVFLIX profiles screen" 
-                className="w-full h-auto rounded-xl"
-              />
-            </div>
+          <div className="flex items-center gap-4 mb-12 border-b border-black/10 pb-4">
+             <div className="w-2 h-2 bg-black" />
+             <h2 className="text-5xl md:text-7xl font-bebas">CORE MODULES</h2>
           </div>
-        </motion.section>
-
-        {/* Screen Breakdown */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <h2 className="mb-8 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-            Screen Breakdown
-          </h2>
           
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Screen 1: Home */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border-2 border-red-100"
-            >
-              <div className="mb-4 text-center">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-red-100 to-pink-100 text-red-700 rounded-full text-sm">
-                  Home Screen
-                </span>
-              </div>
-              <h3 className="mb-3 text-gray-800 text-center">Browse & Discover</h3>
-              <p className="text-gray-600 text-sm text-center leading-relaxed">
-                Hero banner with featured content, curated rows of movies and shows organized by 
-                category, and personalized recommendations for seamless discovery.
-              </p>
-            </motion.div>
-
-            {/* Screen 2: Detail */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border-2 border-purple-100"
-            >
-              <div className="mb-4 text-center">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full text-sm">
-                  Detail Screen
-                </span>
-              </div>
-              <h3 className="mb-3 text-gray-800 text-center">Content Details</h3>
-              <p className="text-gray-600 text-sm text-center leading-relaxed">
-                Rich content information with large hero image, synopsis, cast details, 
-                episode selector, and similar content recommendations.
-              </p>
-            </motion.div>
-
-            {/* Screen 3: Profiles */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border-2 border-pink-100"
-            >
-              <div className="mb-4 text-center">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-pink-100 to-red-100 text-pink-700 rounded-full text-sm">
-                  Profile Screen
-                </span>
-              </div>
-              <h3 className="mb-3 text-gray-800 text-center">User Profiles</h3>
-              <p className="text-gray-600 text-sm text-center leading-relaxed">
-                Multi-profile selection with avatars and names, allowing family members to 
-                maintain personalized viewing experiences and recommendations.
-              </p>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* Project Overview */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 relative"
-        >
-          <motion.div
-            className="absolute -left-8 top-12 text-red-300 opacity-20 hidden lg:block"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            <DoodleSparkle />
-          </motion.div>
-
-          <h2 className="mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent relative inline-block">
-            Project Overview
-            <motion.div 
-              className="absolute -bottom-2 left-0 text-purple-400 opacity-40"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-            >
-              <DoodleUnderline />
-            </motion.div>
-          </h2>
-          <div className="bg-gradient-to-br from-red-50 to-purple-50 rounded-3xl p-8 border-2 border-red-200">
-            <p className="text-gray-700 leading-relaxed mb-4">
-              AEVFLIX is a Figma design concept for a streaming platform that reimagines the viewing 
-              experience with enhanced discovery features and personalized content curation. The design 
-              takes inspiration from popular streaming services while introducing fresh visual elements 
-              and improved user flows for content browsing and selection.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              Through a sleek, modern interface, AEVFLIX features a comprehensive home screen with 
-              curated content rows, an immersive detail page with rich media information, and a 
-              profile selection system for personalized viewing. The design emphasizes visual hierarchy, 
-              high-quality imagery, and intuitive navigation to create an engaging entertainment hub.
-            </p>
-          </div>
-        </motion.section>
-
-        {/* The Challenge */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-            The Challenge
-          </h2>
-          <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-red-100">
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Modern streaming platforms face several user experience challenges:
-            </p>
-            <ul className="space-y-3 text-gray-700">
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-red-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>Content discovery paralysis - too many options without effective curation</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-red-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>Lack of visual hierarchy making it difficult to focus on featured content</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-red-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>Generic recommendations that don't feel personalized to individual users</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-red-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>Cluttered detail pages with poorly organized content information</span>
-              </li>
-            </ul>
-          </div>
-        </motion.section>
-
-        {/* Design Solution */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-            Design Solution
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-6 border-2 border-red-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-red-600 to-pink-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">🎬</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Hero-Driven Discovery</h3>
-              <p className="text-gray-600 text-sm">
-                Large hero banner with featured content that immediately captures attention and 
-                provides quick access to trending shows and movies
-              </p>
-            </div>
-            
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">📊</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Organized Content Rows</h3>
-              <p className="text-gray-600 text-sm">
-                Curated horizontal rows organized by genre, mood, and user preferences with 
-                high-quality thumbnails for easy browsing
-              </p>
-            </div>
-            
-            <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-6 border-2 border-pink-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">📝</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Rich Detail Pages</h3>
-              <p className="text-gray-600 text-sm">
-                Comprehensive content pages with synopsis, cast, episode selection, and 
-                similar content recommendations all in one immersive view
-              </p>
-            </div>
-            
-            <div className="bg-gradient-to-br from-purple-50 to-red-50 rounded-2xl p-6 border-2 border-purple-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-red-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">👥</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Profile Personalization</h3>
-              <p className="text-gray-600 text-sm">
-                Multi-profile support with distinct avatars and names allowing family members 
-                to have personalized content and viewing history
-              </p>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* Key Features */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-            Key Features Designed
-          </h2>
-          <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-red-100">
-            <div className="space-y-6">
-              <div className="border-l-4 border-red-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Dynamic Hero Banner</h3>
-                <p className="text-gray-600">
-                  Large, cinematic hero section showcasing featured content with play and info 
-                  buttons for immediate engagement
-                </p>
-              </div>
-              <div className="border-l-4 border-purple-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Content Categories</h3>
-                <p className="text-gray-600">
-                  Organized rows including "Trending Now", "Popular on AEVFLIX", "Continue Watching", 
-                  and genre-specific collections
-                </p>
-              </div>
-              <div className="border-l-4 border-pink-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Episode Navigator</h3>
-                <p className="text-gray-600">
-                  Intuitive episode selector with season dropdown and episode thumbnails with 
-                  descriptions for series content
-                </p>
-              </div>
-              <div className="border-l-4 border-red-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Profile Management</h3>
-                <p className="text-gray-600">
-                  Clean profile selection interface with "Add Profile" option for growing families 
-                  and customizable avatars
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* Design Process */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 relative"
-        >
-          <motion.div
-            className="absolute -right-8 top-0 text-red-300 opacity-30 hidden lg:block"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 5, repeat: Infinity }}
-          >
-            <DoodleCircle />
-          </motion.div>
-
-          <h2 className="mb-8 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-            Design Process
-          </h2>
-          <div className="space-y-6">
+          <div className="space-y-16">
             {[
-              { step: "01", title: "Competitive Analysis", desc: "Analyzed leading streaming platforms to identify UX patterns and opportunities for improvement", color: "from-red-600 to-pink-600" },
-              { step: "02", title: "User Flow Mapping", desc: "Mapped out typical user journeys from content discovery to playback", color: "from-purple-600 to-pink-600" },
-              { step: "03", title: "Visual Design System", desc: "Created dark theme with vibrant accent colors for cinematic viewing experience", color: "from-pink-600 to-red-600" },
-              { step: "04", title: "UI Components", desc: "Designed reusable components for content cards, navigation, and media players in Figma", color: "from-red-600 to-purple-600" },
-              { step: "05", title: "Responsive Layouts", desc: "Ensured design works seamlessly across desktop, tablet, and TV interfaces", color: "from-purple-600 to-pink-600" }
-            ].map((phase, index) => (
-              <motion.div
-                key={phase.step}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="flex gap-6 items-start"
-              >
-                <div className={`flex-shrink-0 w-16 h-16 bg-gradient-to-r ${phase.color} rounded-2xl flex items-center justify-center text-white shadow-lg`}>
-                  {phase.step}
+              { title: "HOME VIEW", image: aevflixHome, desc: "Hero banner with featured content and curated data rows." },
+              { title: "DETAIL VIEW", image: aevflixDetail, desc: "Rich content metadata with episodic navigation systems." },
+              { title: "USER PROFILES", image: aevflixProfiles, desc: "Multi-user authentication and personalization interface." }
+            ].map((screen, index) => (
+              <div key={index} className="group">
+                <div className="flex items-baseline justify-between mb-4">
+                  <h3 className="text-4xl font-bebas text-black">{screen.title}</h3>
+                  <span className="font-mono text-gray-500 text-[10px] tracking-widest hidden md:block uppercase">[SYS.VIEW.0{index+1}] {screen.desc}</span>
                 </div>
-                <div className="flex-grow">
-                  <h3 className="mb-2 text-gray-800">{phase.title}</h3>
-                  <p className="text-gray-600">{phase.desc}</p>
+                <div className="border border-black bg-gray-100 overflow-hidden relative">
+                   {/* Corner markers small */}
+                   <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-black z-10" />
+                   <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-black z-10" />
+                   
+                  <img 
+                    src={screen.image} 
+                    alt={screen.title} 
+                    className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700"
+                  />
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.section>
 
-        {/* Design Decisions */}
+        {/* Project Details Grid */}
         <motion.section
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16"
+          className="mb-32 grid md:grid-cols-2 gap-16"
         >
-          <h2 className="mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-            Design Decisions
-          </h2>
-          <div className="bg-gradient-to-br from-red-50 to-purple-50 rounded-3xl p-8 border-2 border-red-200">
-            <ul className="space-y-4 text-gray-700">
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">🎨</span>
-                <div>
-                  <strong>Dark Theme:</strong> Chose a dark color scheme to reduce eye strain during 
-                  extended viewing sessions and make content imagery stand out
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">🖼️</span>
-                <div>
-                  <strong>Image-First Design:</strong> Prioritized high-quality thumbnails and hero images 
-                  to create visual interest and help users make quick decisions
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">📐</span>
-                <div>
-                  <strong>Grid System:</strong> Used consistent spacing and alignment for content cards 
-                  to create order and improve scannability
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">🎯</span>
-                <div>
-                  <strong>Clear CTAs:</strong> Designed prominent play and info buttons with high contrast 
-                  to guide users toward key actions
-                </div>
-              </li>
-            </ul>
+          <div>
+            <h3 className="font-mono text-xs text-gray-400 mb-4 tracking-widest">[01] OVERVIEW</h3>
+            <h2 className="text-4xl md:text-5xl font-bebas mb-6 leading-none">THE CHALLENGE</h2>
+            <div className="space-y-6 font-mono text-sm leading-relaxed text-gray-600">
+               <p>
+                 Modern streaming services suffer from content paralysis. Users spend more time searching than viewing. AEVFLIX optimizes the decision-making latency through better visual hierarchy.
+               </p>
+               <ul className="space-y-4 mt-6 border-l-2 border-black pl-6">
+                 {[
+                   "Content discovery latency",
+                   "Poor metadata visibility",
+                   "Non-personalized algorithmic suggestions"
+                 ].map((item, i) => (
+                   <li key={i} className="flex gap-4 items-start">
+                     <span className="text-black font-bold">0{i+1} //</span>
+                     <span>{item}</span>
+                   </li>
+                 ))}
+               </ul>
+            </div>
           </div>
-        </motion.section>
-
-        {/* Impact & Learnings */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
-            Key Learnings
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-2xl p-6 border-2 border-red-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">Content is King</h3>
-              <p className="text-gray-600 text-sm">
-                In streaming platforms, the content imagery should be the star - UI elements 
-                should enhance rather than compete with the media
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 border-2 border-purple-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">Information Hierarchy</h3>
-              <p className="text-gray-600 text-sm">
-                Organizing content by categories and user behavior patterns makes discovery 
-                more intuitive and reduces decision fatigue
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 border-2 border-pink-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">Personalization Value</h3>
-              <p className="text-gray-600 text-sm">
-                Multiple user profiles with distinct experiences is crucial for household 
-                streaming services to feel relevant to each viewer
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 border-2 border-red-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">Visual Consistency</h3>
-              <p className="text-gray-600 text-sm">
-                Maintaining consistent card sizes, spacing, and typography across all screens 
-                creates a cohesive, professional experience
-              </p>
+          
+          <div>
+            <h3 className="font-mono text-xs text-gray-400 mb-4 tracking-widest">[02] SOLUTION</h3>
+            <h2 className="text-4xl md:text-5xl font-bebas mb-6 leading-none">KEY FEATURES</h2>
+            <div className="grid gap-6">
+               {[
+                 { title: "DYNAMIC HERO UNITS", desc: "Cinematic, full-width content showcases with instant-play capability." },
+                 { title: "METADATA DENSITY", desc: "Optimized information density for quicker user assessment." },
+                 { title: "EPISODIC NAVIGATOR", desc: "Tree-structured navigation for series content." }
+               ].map((item, i) => (
+                  <div key={i} className="border border-black/10 p-6 hover:border-black hover:bg-black hover:text-white transition-all duration-300 group">
+                     <h4 className="font-bebas text-2xl mb-2">{item.title}</h4>
+                     <p className="font-mono text-xs text-gray-500 group-hover:text-gray-300">{item.desc}</p>
+                  </div>
+               ))}
             </div>
           </div>
         </motion.section>
 
-        {/* CTA */}
+        {/* CTA Footer */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center"
+          className="border-t-2 border-black pt-16 flex flex-col items-center text-center"
         >
+           <Monitor className="w-12 h-12 mb-6 text-black" strokeWidth={1} />
+           <h2 className="text-4xl font-bebas mb-8">SOURCE FILES AVAILABLE</h2>
+           
           <a 
             href="https://www.figma.com/design/lwVSPVIFi7H1Pd4e3OXaxF/AEVFLIX?node-id=0-1&t=0KDO71FS3NZ1zDYE-1"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex px-8 py-4 bg-gradient-to-r from-red-600 via-purple-600 to-pink-600 text-white rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 items-center gap-2"
+            className="inline-flex items-center gap-4 px-12 py-4 bg-black text-white font-bebas text-xl hover:bg-gray-800 transition-colors group relative overflow-hidden"
           >
+            <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             <Figma className="w-5 h-5" />
-            <span>View on Figma</span>
+            <span>ACCESS FIGMA DATA</span>
+            <ArrowUpRight className="w-5 h-5" />
           </a>
+          
+          <div className="mt-12 font-mono text-[10px] text-gray-400 tracking-widest">
+             SECURE CONNECTION ESTABLISHED // END OF FILE
+          </div>
         </motion.div>
       </div>
     </div>

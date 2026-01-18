@@ -1,5 +1,4 @@
-import { Heart, Mail, Linkedin, Github, ArrowUp } from "lucide-react";
-import { DoodleHeart } from "./Doodles";
+import { ArrowUp, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   const scrollToTop = () => {
@@ -7,124 +6,65 @@ export function Footer() {
   };
 
   const footerLinks = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Experience", href: "#experience" },
-    { label: "Work", href: "#work" },
-    { label: "Skills", href: "#skills" },
-    { label: "Contact", href: "#contact" },
-  ];
-
-  const socialLinks = [
-    { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/aevlin-prince-146887291/" },
-    { icon: Github, label: "GitHub", href: "https://github.com/aevlin" },
-    { icon: Mail, label: "Email", href: "mailto:aevlinprince@gmail.com" },
+    { label: "HOME", href: "#home" },
+    { label: "ABOUT", href: "#about" },
+    { label: "EXPERIENCE", href: "#experience" },
+    { label: "WORK", href: "#work" },
+    { label: "SKILLS", href: "#skills" },
+    { label: "CONTACT", href: "#contact" },
   ];
 
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
-      {/* Decorative top border */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500" />
+    <footer className="bg-white text-black relative overflow-hidden border-t border-black/10">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+      `}</style>
       
-      {/* Doodle decoration */}
-      <div className="absolute top-8 right-10 text-pink-500 opacity-20 hidden lg:block">
-        <DoodleHeart />
+      {/* Big text footer */}
+      <div className="w-full border-b border-black/5">
+        <h2 className="text-[12vw] font-bebas text-center leading-none text-black/5 hover:text-black/20 transition-colors duration-500 select-none py-12">
+          AEVLIN PRINCE
+        </h2>
       </div>
 
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-5" />
-
-      <div className="max-w-7xl mx-auto px-6 pt-16 pb-8 relative z-10">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-2">
-            <div className="mb-4">
-              <span className="text-3xl bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent font-[Cormorant_Upright]">
-                Aevlin Prince
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
+          
+          {/* Copyright & Info */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap gap-8 text-sm text-gray-500 font-mono tracking-widest">
+              <span>© {new Date().getFullYear()} AEVLIN PRINCE</span>
+              <span>KOTTAYAM, KERALA</span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                AVAILABLE
               </span>
-              <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mt-2" />
-            </div>
-            <p className="text-gray-400 mb-6 max-w-md leading-relaxed">
-              UI/UX Designer crafting beautiful, intuitive digital experiences. 
-              Let's work together to bring your vision to life! ✨
-            </p>
-            <div className="flex gap-4">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    className="w-10 h-10 bg-white/5 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all duration-300 hover:scale-110"
-                    aria-label={social.label}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </a>
-                );
-              })}
             </div>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="mb-4 text-white">Quick Links</h4>
-            <ul className="space-y-3">
-              {footerLinks.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-pink-400 transition-colors duration-300 flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-px bg-pink-400 group-hover:w-4 transition-all duration-300" />
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="flex flex-wrap gap-6 md:gap-12">
+            {footerLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-xl font-bebas tracking-wide text-gray-400 hover:text-black transition-colors relative group"
+              >
+                {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-black group-hover:w-full transition-all duration-300"></span>
+              </a>
+            ))}
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h4 className="mb-4 text-white">Get in Touch</h4>
-            <ul className="space-y-3 text-gray-400 text-sm">
-              <li>
-                <a 
-                  href="mailto:aevlinprince@gmail.com"
-                  className="hover:text-pink-400 transition-colors duration-300"
-                >
-                  aevlinprince@gmail.com
-                </a>
-              </li>
-              <li>Kottayam, Kerala, India</li>
-              <li className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-green-400">Available for work</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex flex-col sm:flex-row items-center gap-2 text-gray-400 text-sm text-center sm:text-left">
-              <span>© {new Date().getFullYear()} Aevlin Prince.</span>
-              <span className="flex items-center gap-2">
-                Designed with
-                <Heart className="w-4 h-4 text-pink-500 fill-pink-500 animate-pulse" />
-                and passion
-              </span>
-            </div>
-            
-            <button
-              onClick={scrollToTop}
-              className="group flex items-center gap-2 px-6 py-2.5 bg-white/5 backdrop-blur-sm rounded-full hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-200 hover:scale-105"
-              aria-label="Scroll to top"
-            >
-              <span className="text-sm">Back to top</span>
-              <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform duration-200" />
-            </button>
-          </div>
+          {/* Back to Top */}
+          <button
+            onClick={scrollToTop}
+            className="w-12 h-12 border border-black/20 flex items-center justify-center hover:bg-black hover:text-white transition-all duration-300"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </button>
         </div>
       </div>
     </footer>

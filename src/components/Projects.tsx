@@ -1,13 +1,9 @@
-import { motion } from "motion/react";
-import { useState } from "react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { ExternalLink, ArrowRight, Filter } from "lucide-react";
-import { DoodleStar, DoodleCircle, DoodleSparkle } from "./Doodles";
-import aevflixLogo from "figma:asset/811724d66642564227af9e8c0be5e21098f06ba7.png";
-import toneUpLogo from "figma:asset/962efa58d190b2be51c8cdb70d5f137275c0fa9a.png";
-import caveraLogo from "figma:asset/7967b8a04ba5f5e1d66b00807451573dc19f5823.png";
-import aevflixHero from "figma:asset/41acdb714fa1000a46e63447afa31354c55a16d4.png";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useState, useRef } from "react";
+import { ArrowUpRight, Crosshair, maximize } from "lucide-react";
 import toneUpHero from "figma:asset/8075cb80e5be6a4e52021cbb4b109d4402fec1f8.png";
+import toneUpLogo from "figma:asset/962efa58d190b2be51c8cdb70d5f137275c0fa9a.png";
+import aevflixHero from "figma:asset/41acdb714fa1000a46e63447afa31354c55a16d4.png";
 import caveraHero from "figma:asset/3f89057f37bf3828f2d1f36bf556d29c3879fea8.png";
 import whatsappHero from "figma:asset/760f27b5eeb4c768dab283ca40665986b50979a0.png";
 
@@ -15,216 +11,194 @@ interface ProjectsProps {
   onProjectClick?: (caseStudy: string) => void;
 }
 
-export function Projects({ onProjectClick }: ProjectsProps) {
-  const [activeFilter, setActiveFilter] = useState("All");
+function ProjectItem({ project, index, onProjectClick }: { project: any, index: number, onProjectClick?: (id: string) => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="group cursor-pointer relative"
+      onClick={() => project.caseStudy && onProjectClick?.(project.caseStudy)}
+    >
+      {/* Technical Frame */}
+      <div className="absolute -inset-2 border border-transparent group-hover:border-black/10 transition-colors duration-300 pointer-events-none">
+         {/* Corner Markers */}
+         <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-black opacity-0 group-hover:opacity-100 transition-opacity" />
+         <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-black opacity-0 group-hover:opacity-100 transition-opacity" />
+         <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-black opacity-0 group-hover:opacity-100 transition-opacity" />
+         <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-black opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
 
-  const filters = ["All", "Mobile", "Web", "Branding", "Research"];
+      {/* Image Container */}
+      <div className="relative overflow-hidden aspect-[16/10] bg-gray-100 mb-4 border border-black group-hover:border-black transition-colors">
+        {/* Overlay Grid */}
+        <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-20 pointer-events-none bg-[linear-gradient(rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+        
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105"
+        />
+
+        {/* Floating ID Tag */}
+        <div className="absolute top-0 left-0 bg-black text-white px-2 py-1 z-20">
+           <span className="font-mono text-[10px] tracking-widest">PRJ-{String(index + 1).padStart(3, '0')}</span>
+        </div>
+
+        {/* Project Logo Overlay */}
+        {project.logo && (
+           <div className="absolute bottom-4 left-4 z-20 max-w-[120px]">
+              <img src={project.logo} alt="brand logo" className="w-full h-auto drop-shadow-md grayscale group-hover:grayscale-0 transition-all duration-500 invert group-hover:invert-0" />
+           </div>
+        )}
+
+        {/* View Project Overlay */}
+        <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+           <div className="bg-white border border-black px-4 py-2 flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <span className="font-bebas text-lg tracking-wide text-black">VIEW CASE STUDY</span>
+              <ArrowUpRight className="w-4 h-4 text-black" />
+           </div>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="flex justify-between items-start border-b border-gray-200 pb-4 group-hover:border-black transition-colors">
+        <div>
+           <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-3xl font-bebas leading-none">{project.title}</h3>
+              <div className="h-px w-8 bg-black/20 group-hover:bg-black transition-colors" />
+           </div>
+           <p className="font-mono text-xs text-gray-500 max-w-xs">{project.description}</p>
+        </div>
+        <div className="text-right">
+           <span className="block font-mono text-[10px] text-gray-400 mb-1">CATEGORY</span>
+           <span className="block font-bebas text-lg">{project.category}</span>
+        </div>
+      </div>
+      
+      {/* Tech Stack - Mini */}
+      <div className="flex gap-2 mt-3 overflow-hidden">
+         {project.tags.map((tag: string) => (
+            <span key={tag} className="font-mono text-[9px] border border-gray-200 px-1 text-gray-400 group-hover:border-black group-hover:text-black transition-colors">
+               {tag}
+            </span>
+         ))}
+      </div>
+    </motion.div>
+  );
+}
+
+export function Projects({ onProjectClick }: ProjectsProps) {
+  const [activeFilter, setActiveFilter] = useState("ALL");
+  const containerRef = useRef(null);
+  
+  // Subtle parallax for title
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const yTitle = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
+  const filters = ["ALL", "MOBILE", "WEB", "BRANDING", "RESEARCH"];
 
   const projects = [
     {
-      title: "ToneUp",
-      category: "Mobile",
-      description: "A music instrument learning app UI design that gamifies education with an intuitive interface.",
+      title: "TONEUP",
+      category: "MOBILE",
+      description: "Music instrument learning app gamifying education.",
       image: toneUpHero,
-      tags: ["Mobile UI", "Figma", "Music Education"],
-      color: "from-purple-500 to-pink-500",
+      logo: toneUpLogo,
+      tags: ["MOBILE UI", "FIGMA", "EDUCATION"],
       caseStudy: "toneup",
     },
     {
       title: "AEVFLIX",
-      category: "Web",
-      description: "A streaming platform UI design reimagining the Netflix experience with enhanced discovery features.",
+      category: "WEB",
+      description: "Streaming platform reimagining the Netflix experience.",
       image: aevflixHero,
-      tags: ["Web UI", "Figma", "Entertainment"],
-      color: "from-red-500 to-purple-500",
+      tags: ["WEB UI", "FIGMA", "ENTERTAINMENT"],
       caseStudy: "aevflix",
     },
     {
-      title: "Cavera",
-      category: "Web",
-      description: "A sophisticated landing page design for a clothing brand blending minimalism with elegance.",
+      title: "CAVERA",
+      category: "WEB",
+      description: "Sophisticated landing page for a clothing brand.",
       image: caveraHero,
-      tags: ["Web Design", "Figma", "Fashion"],
-      color: "from-amber-600 to-orange-600",
+      tags: ["WEB DESIGN", "FIGMA", "FASHION"],
       caseStudy: "cavera",
     },
     {
-      title: "WhatsApp 1990s Retro vers.",
-      category: "Mobile",
-      description: "A nostalgic Figma concept reimagining WhatsApp with authentic 1990s mobile interface aesthetics.",
+      title: "WHATSAPP 90S",
+      category: "MOBILE",
+      description: "Nostalgic concept reimagining WhatsApp with retro aesthetics.",
       image: whatsappHero,
-      tags: ["Mobile UI", "Figma", "Retro Design"],
-      color: "from-green-600 to-yellow-500",
+      tags: ["MOBILE UI", "FIGMA", "RETRO"],
       caseStudy: "whatsapp1990s",
     },
   ];
 
-  const filteredProjects = activeFilter === "All" 
+  const filteredProjects = activeFilter === "ALL" 
     ? projects 
     : projects.filter(p => p.category === activeFilter);
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-b from-white via-purple-50 to-pink-50 relative overflow-hidden">
-      {/* Doodle decorations */}
-      <motion.div
-        className="absolute top-40 right-20 text-purple-300 opacity-20 rotate-12 hidden lg:block"
-        initial={{ opacity: 0, rotate: 0 }}
-        whileInView={{ opacity: 0.2, rotate: 12 }}
-        viewport={{ once: true }}
-      >
-        <DoodleStar />
-      </motion.div>
+    <section ref={containerRef} className="py-24 px-6 bg-white text-black relative min-h-screen">
+       {/* Decorative Lines */}
+       <div className="absolute top-0 left-6 right-6 h-px bg-black/10" />
+       <div className="absolute bottom-0 left-6 right-6 h-px bg-black/10" />
+       <div className="absolute left-6 top-0 bottom-0 w-px bg-black/10 hidden md:block" />
+       <div className="absolute right-6 top-0 bottom-0 w-px bg-black/10 hidden md:block" />
 
-      <motion.div
-        className="absolute bottom-60 left-16 text-orange-300 opacity-20 hidden lg:block"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.2 }}
-        viewport={{ once: true }}
-      >
-        <DoodleCircle />
-      </motion.div>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b-2 border-black pb-8">
+           <motion.div style={{ y: yTitle }}>
+              <span className="block font-mono text-xs mb-2 text-gray-500 tracking-widest">SELECTED WORKS // 2023-24</span>
+              <h2 className="text-8xl md:text-9xl font-bebas leading-[0.8]">
+                 PROJECTS
+              </h2>
+           </motion.div>
 
-      <div className="max-w-7xl mx-auto relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <span className="inline-block px-5 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-600 rounded-full mb-6 border-2 border-purple-200">
-            Portfolio
-          </span>
-          <h2 className="mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Selected Work
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            A collection of projects that showcase my approach to solving complex design challenges
-          </p>
-        </motion.div>
-
-        {/* Filter buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center gap-3 mb-12 flex-wrap"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md border-2 border-purple-100">
-            <Filter className="w-4 h-4 text-purple-600" />
-            <span className="text-gray-700 text-sm">Filter:</span>
-          </div>
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-2 rounded-full transition-all duration-300 ${
-                activeFilter === filter
-                  ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-105"
-                  : "bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200 hover:border-purple-300"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              layout
-              className="group cursor-pointer"
-              onClick={() => project.caseStudy && onProjectClick?.(project.caseStudy)}
-            >
-              <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-purple-200 h-full flex flex-col">
-                {/* Image */}
-                <div className="relative overflow-hidden aspect-[4/3]">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className={`w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ${
-                      project.title === "WhatsApp 1990s Retro vers." ? "bg-gradient-to-b from-amber-50 to-yellow-50" : ""
-                    }`}
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                  
-                  {/* ToneUp Logo Overlay */}
-                  {project.title === "ToneUp" && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <img src={toneUpLogo} alt="ToneUp" className="h-16 md:h-20 w-auto drop-shadow-2xl" />
-                    </div>
+           {/* Filters */}
+           <div className="flex flex-wrap gap-x-6 gap-y-2 mt-8 md:mt-0">
+              {filters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={`font-mono text-xs tracking-widest transition-all duration-300 relative group py-1 ${
+                    activeFilter === filter ? "text-black font-bold" : "text-gray-400 hover:text-black"
+                  }`}
+                >
+                  [{filter}]
+                  {activeFilter === filter && (
+                     <motion.div 
+                        layoutId="activeFilter"
+                        className="absolute bottom-0 left-0 w-full h-px bg-black"
+                     />
                   )}
-                  
-                  <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 shadow-lg">
-                    <ExternalLink className="w-5 h-5 text-gray-800" />
-                  </div>
-                  {/* Category badge */}
-                  <div className="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full text-xs border-2 border-purple-200">
-                    <span className={`bg-gradient-to-r ${project.color} bg-clip-text text-transparent`}>
-                      {project.category}
-                    </span>
-                  </div>
-                  {/* Floating doodle */}
-                  <motion.div
-                    className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-60"
-                    initial={{ scale: 0 }}
-                    whileHover={{ scale: 1 }}
-                  >
-                    <DoodleSparkle />
-                  </motion.div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 flex-grow flex flex-col">
-                  {project.title === "AEVFLIX" ? (
-                    <div className="mb-3">
-                      <img src={aevflixLogo} alt="AEVFLIX" className="h-12 w-auto" />
-                    </div>
-                  ) : project.title === "ToneUp" ? (
-                    <div className="mb-3">
-                      <img src={toneUpLogo} alt="ToneUp" className="h-10 w-auto" />
-                    </div>
-                  ) : project.title === "Cavera" ? (
-                    <div className="mb-3">
-                      <img src={caveraLogo} alt="Cavera" className="h-10 w-auto brightness-[0.3] contrast-125" />
-                    </div>
-                  ) : project.title === "WhatsApp 1990s Retro vers." ? (
-                    <h3 className="mb-3 bg-gradient-to-r from-green-600 to-yellow-500 bg-clip-text text-transparent">{project.title}</h3>
-                  ) : (
-                    <h3 className="mb-3 text-gray-800">{project.title}</h3>
-                  )}
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed flex-grow">{project.description}</p>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-gray-50 text-gray-600 rounded-full text-xs border border-gray-200"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* View Project Link */}
-                  <div className="flex items-center gap-2 text-purple-600 group-hover:gap-4 transition-all duration-300">
-                    <span className="text-sm">View Project</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                </button>
+              ))}
+           </div>
         </div>
 
-
+        {/* Projects Grid - Masonry-ish feel but strict grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-x-8 gap-y-16">
+           {filteredProjects.map((project, index) => (
+              <ProjectItem 
+                key={project.title} 
+                project={project} 
+                index={index} 
+                onProjectClick={onProjectClick} 
+              />
+           ))}
+        </div>
+        
+        {/* Footer info for section */}
+        <div className="mt-24 pt-6 border-t border-black/10 flex justify-between font-mono text-[10px] text-gray-400 uppercase">
+           <span>Index: {filteredProjects.length} Items</span>
+           <span>Status: All Systems Operational</span>
+        </div>
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Figma } from "lucide-react";
-import { DoodleStar, DoodleCircle, DoodleSparkle, DoodleUnderline } from "../Doodles";
-import Design from "../../imports/Design-17-914";
+import { ArrowLeft, Figma, ArrowUpRight, Crosshair, Cpu } from "lucide-react";
+import Design from "../../imports/Design-137-600";
 import toneUpLogo from "figma:asset/962efa58d190b2be51c8cdb70d5f137275c0fa9a.png";
 import toneUpHero from "figma:asset/8075cb80e5be6a4e52021cbb4b109d4402fec1f8.png";
 
@@ -11,536 +10,219 @@ interface ToneUpProps {
 
 export function ToneUp({ onBack }: ToneUpProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50 via-purple-50 to-white">
-      {/* Back button */}
-      <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        onClick={onBack}
-        className="fixed top-8 left-8 z-50 flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-purple-200 hover:border-pink-300 group"
-      >
-        <ArrowLeft className="w-5 h-5 text-gray-700 group-hover:-translate-x-1 transition-transform" />
-        <span className="text-gray-700">Back to Projects</span>
-      </motion.button>
+    <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+      `}</style>
 
-      <div className="max-w-5xl mx-auto px-6 py-24">
+      {/* Fixed Header / Nav */}
+      <motion.div 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/90 backdrop-blur-md border-b border-black/10"
+      >
+        <button
+            onClick={onBack}
+            className="flex items-center gap-2 group"
+        >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <span className="font-bebas text-xl tracking-wide">BACK TO INDEX</span>
+        </button>
+        <div className="hidden md:flex items-center gap-4 font-mono text-[10px] tracking-widest text-gray-500">
+            <span>SYS.STATUS: ONLINE</span>
+            <span>ID: PRJ-001</span>
+        </div>
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 relative border-x border-black/5 min-h-screen">
+        {/* Background Grid */}
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-16 relative"
+          transition={{ duration: 0.6 }}
+          className="relative z-10 mb-24"
         >
-          <motion.div
-            className="absolute -top-8 -right-8 text-purple-300 opacity-20 hidden lg:block"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <DoodleStar />
-          </motion.div>
-
-          {/* Logo */}
-          <div className="mb-8 flex justify-center">
-            <img src={toneUpLogo} alt="ToneUp Logo" className="h-16 md:h-20 w-auto" />
+          <div className="flex flex-col md:flex-row gap-12 items-end mb-16 border-b-2 border-black pb-12">
+            <div className="flex-1">
+              <div className="flex items-center gap-4 mb-6">
+                 <img src={toneUpLogo} alt="ToneUp Logo" className="h-12 w-auto grayscale" />
+                 <span className="font-mono text-xs bg-black text-white px-2 py-1">MOBILE APPLICATION</span>
+              </div>
+              <h1 className="text-8xl md:text-[10rem] font-bebas leading-[0.8] mb-6">
+                TONEUP
+              </h1>
+              <p className="font-mono text-sm md:text-base text-gray-600 max-w-2xl leading-relaxed uppercase tracking-wide">
+                Gamified music education interface designed to lower the barrier of entry for aspiring musicians through intuitive UX patterns.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-x-12 gap-y-4 w-full md:w-auto border-l border-black/10 pl-8">
+              {[
+                { label: "ROLE", value: "UI/UX DESIGNER" },
+                { label: "TIMELINE", value: "3 WEEKS" },
+                { label: "STACK", value: "FIGMA" },
+                { label: "VERSION", value: "v1.0.4" }
+              ].map((metric) => (
+                <div key={metric.label}>
+                  <div className="text-[10px] font-mono tracking-widest text-gray-400 mb-1">{metric.label}</div>
+                  <div className="text-xl font-bebas tracking-wide">{metric.value}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="text-center mb-8">
-            <span className="inline-block px-5 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full mb-4 border-2 border-purple-200">
-              Mobile UI Design
-            </span>
-            <h1 className="mb-4 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              ToneUp
-            </h1>
-            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-              A Figma design concept for music learning that crafts interfaces to make music education 
-              accessible and engaging for all skill levels.
-            </p>
-          </div>
+          {/* Technical Hero Image Frame */}
+          <div className="relative w-full bg-gray-100 mb-24 group border border-black">
+             {/* Technical Markers */}
+             <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-black z-20" />
+             <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-black z-20" />
+             <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-black z-20" />
+             <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-black z-20" />
+             
+             {/* Crosshair Overlay */}
+             <div className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                   <Crosshair className="w-12 h-12 text-white drop-shadow-md" strokeWidth={1} />
+                </div>
+                {/* Grid Overlay */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+             </div>
 
-          {/* Hero Image */}
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white mb-12">
-
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
-          </div>
-
-          {/* Key Metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {[
-              { icon: "🎯", label: "Role", value: "UI/UX Designer" },
-              { icon: "⏱️", label: "Timeline", value: "3 Weeks" },
-              { icon: "🛠️", label: "Tools", value: "Figma" },
-              { icon: "🎨", label: "Type", value: "Mobile UI" }
-            ].map((metric, index) => (
-              <motion.div
-                key={metric.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 text-center border-2 border-purple-100 shadow-md hover:shadow-lg transition-shadow"
-              >
-                <div className="text-3xl mb-2">{metric.icon}</div>
-                <div className="text-sm text-gray-500 mb-1">{metric.label}</div>
-                <div className="text-gray-800">{metric.value}</div>
-              </motion.div>
-            ))}
+            <img 
+              src={toneUpHero} 
+              alt="ToneUp Hero" 
+              className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 block"
+            />
           </div>
         </motion.div>
 
         {/* UI Showcase Section */}
         <motion.section
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-20"
+          className="mb-32 relative"
         >
-          <h2 className="mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent relative inline-block">
-            Final Design
-            <motion.div 
-              className="absolute -bottom-2 left-0 text-purple-400 opacity-40"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-            >
-              <DoodleUnderline />
-            </motion.div>
-          </h2>
-          <p className="text-gray-600 mb-8">
-            A complete mobile experience showcasing the onboarding, level selection, and learning interface
-          </p>
+          <div className="flex items-center gap-4 mb-12 border-b border-black/10 pb-4">
+             <div className="w-2 h-2 bg-black" />
+             <h2 className="text-5xl md:text-7xl font-bebas">SYSTEM INTERFACE</h2>
+          </div>
           
-          <div className="bg-gradient-to-br from-cyan-50 via-purple-50 to-pink-50 rounded-3xl p-4 md:p-8 overflow-auto shadow-2xl border-2 border-purple-200">
-            <div className="min-w-[1500px] h-[2200px] relative">
+          <div className="bg-gray-50 border border-black p-4 md:p-8 overflow-auto relative">
+             <div className="absolute top-4 left-4 font-mono text-[10px] text-gray-400">RENDER_MODE: VECTOR</div>
+            <div className="min-w-[1500px] h-[2200px] relative grayscale hover:grayscale-0 transition-all duration-500 origin-top-left scale-[0.8] md:scale-100">
               <Design />
             </div>
           </div>
+        </motion.section>
+
+        {/* Project Details Grid */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-32 grid md:grid-cols-2 gap-16"
+        >
+          <div>
+            <h3 className="font-mono text-xs text-gray-400 mb-4 tracking-widest">[01] OVERVIEW</h3>
+            <h2 className="text-4xl md:text-5xl font-bebas mb-6 leading-none">THE CHALLENGE</h2>
+            <div className="space-y-6 font-mono text-sm leading-relaxed text-gray-600">
+               <p>
+                 ToneUp addresses the steep learning curve of musical instruments. The primary objective was to gamify the education process without trivializing the theory.
+               </p>
+               <ul className="space-y-4 mt-6 border-l-2 border-black pl-6">
+                 {[
+                   "Information overload for beginners",
+                   "Lack of structured progression feedback",
+                   "Absence of daily motivation triggers"
+                 ].map((item, i) => (
+                   <li key={i} className="flex gap-4 items-start">
+                     <span className="text-black font-bold">0{i+1} //</span>
+                     <span>{item}</span>
+                   </li>
+                 ))}
+               </ul>
+            </div>
+          </div>
           
-          <p className="text-center text-gray-500 text-sm mt-4">
-            Scroll horizontally and vertically to explore all screens
-          </p>
+          <div>
+            <h3 className="font-mono text-xs text-gray-400 mb-4 tracking-widest">[02] SOLUTION</h3>
+            <h2 className="text-4xl md:text-5xl font-bebas mb-6 leading-none">INTERFACE LOGIC</h2>
+            <div className="grid gap-6">
+               {[
+                 { title: "ADAPTIVE LEARNING PATHS", desc: "Dynamic curriculum adjustment based on user performance metrics." },
+                 { title: "VISUAL FEEDBACK LOOPS", desc: "Immediate UI response systems for correct/incorrect inputs." },
+                 { title: "PROGRESSION TRACKING", desc: "Data visualization for long-term skill acquisition." }
+               ].map((item, i) => (
+                  <div key={i} className="border border-black/10 p-6 hover:border-black hover:bg-black hover:text-white transition-all duration-300 group">
+                     <h4 className="font-bebas text-2xl mb-2">{item.title}</h4>
+                     <p className="font-mono text-xs text-gray-500 group-hover:text-gray-300">{item.desc}</p>
+                  </div>
+               ))}
+            </div>
+          </div>
         </motion.section>
 
-        {/* Screen Breakdown */}
+        {/* Process Timeline */}
         <motion.section
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-20"
+          className="mb-32"
         >
-          <h2 className="mb-8 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-            Screen Breakdown
-          </h2>
+          <div className="flex items-center gap-4 mb-16 border-b border-black/10 pb-4">
+             <div className="w-2 h-2 bg-black" />
+             <h2 className="text-5xl md:text-7xl font-bebas">EXECUTION PROTOCOL</h2>
+          </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Screen 1: Front Page */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border-2 border-purple-100"
-            >
-              <div className="mb-4 text-center">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full text-sm">
-                  Screen 1
-                </span>
-              </div>
-              <h3 className="mb-3 text-gray-800 text-center">Splash & Welcome</h3>
-              <p className="text-gray-600 text-sm text-center leading-relaxed">
-                Beautiful gradient background with the ToneUp logo creates an inviting first impression. 
-                Clean, minimal design sets the tone for the app experience.
-              </p>
-            </motion.div>
-
-            {/* Screen 2: Level Selection */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border-2 border-cyan-100"
-            >
-              <div className="mb-4 text-center">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 rounded-full text-sm">
-                  Screen 2
-                </span>
-              </div>
-              <h3 className="mb-3 text-gray-800 text-center">Level Selection</h3>
-              <p className="text-gray-600 text-sm text-center leading-relaxed">
-                Personalized onboarding with four skill levels. Each level is color-coded with 
-                clear descriptions to help users make the right choice for their journey.
-              </p>
-            </motion.div>
-
-            {/* Screen 3: Learning Dashboard */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border-2 border-orange-100"
-            >
-              <div className="mb-4 text-center">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-orange-100 to-yellow-100 text-orange-700 rounded-full text-sm">
-                  Screen 3
-                </span>
-              </div>
-              <h3 className="mb-3 text-gray-800 text-center">Learning Hub</h3>
-              <p className="text-gray-600 text-sm text-center leading-relaxed">
-                Step-by-step learning modules with visual progress indicators. Features "Song of the Day" 
-                and organized curriculum to guide users through their musical journey.
-              </p>
-            </motion.div>
-
-            {/* Screen 4: Instrument Selection */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-100"
-            >
-              <div className="mb-4 text-center">
-                <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-full text-sm">
-                  Screen 4
-                </span>
-              </div>
-              <h3 className="mb-3 text-gray-800 text-center">Instrument Choice</h3>
-              <p className="text-gray-600 text-sm text-center leading-relaxed">
-                Interactive card-based selection with playful illustrations for Guitar, Piano, Drum, 
-                and Vocal lessons. Personalized greeting makes users feel welcomed.
-              </p>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* Project Overview */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 relative"
-        >
-          <motion.div
-            className="absolute -left-8 top-12 text-cyan-300 opacity-20 hidden lg:block"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            <DoodleSparkle />
-          </motion.div>
-
-          <h2 className="mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent relative inline-block">
-            Project Overview
-            <motion.div 
-              className="absolute -bottom-2 left-0 text-purple-400 opacity-40"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-            >
-              <DoodleUnderline />
-            </motion.div>
-          </h2>
-          <div className="bg-gradient-to-br from-cyan-50 to-purple-50 rounded-3xl p-8 border-2 border-purple-200">
-            <p className="text-gray-700 leading-relaxed mb-4">
-              ToneUp is a UI/UX design concept for a mobile application that reimagines how people learn musical 
-              instruments. The design supports multiple instruments including Guitar, Piano, Drums, and Vocal 
-              training, showcasing a structured, step-by-step interface that would guide users from complete 
-              beginners to confident players.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              Through an intuitive interface designed in Figma, ToneUp features personalized learning paths based 
-              on skill levels (Elementary, Beginner, Intermediate, Advanced), making music education feel accessible 
-              and less intimidating. The playful card-based instrument selection creates an engaging visual experience 
-              that sets the tone for the learning journey.
-            </p>
-          </div>
-        </motion.section>
-
-        {/* The Challenge */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-            The Challenge
-          </h2>
-          <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-cyan-100">
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Many aspiring musicians struggle with learning instruments due to:
-            </p>
-            <ul className="space-y-3 text-gray-700">
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>Overwhelming amount of information without clear progression path</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>Difficulty adapting learning materials to individual skill levels</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>Lack of structured daily practice guidance and motivation</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2 h-2 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full mt-2 flex-shrink-0" />
-                <span>High barrier to entry with expensive private lessons</span>
-              </li>
-            </ul>
-          </div>
-        </motion.section>
-
-        {/* Design Solution */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-            Design Solution
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">🎯</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Personalized Level Selection</h3>
-              <p className="text-gray-600 text-sm">
-                Visual design for skill level selection (Elementary, Beginner, Intermediate, Advanced) with 
-                color-coded cards that would provide customized learning paths matching user abilities
-              </p>
-            </div>
-            
-            <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 border-2 border-cyan-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">📚</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Step-by-Step Curriculum</h3>
-              <p className="text-gray-600 text-sm">
-                Interface design for structured learning modules including "Tune your guitar", "Hold your Guitar", 
-                "Learn your first chord", and "Play Your First Song"
-              </p>
-            </div>
-            
-            <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-6 border-2 border-orange-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-600 to-yellow-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">🎵</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Daily Song Challenges</h3>
-              <p className="text-gray-600 text-sm">
-                Designed "Song of the Day" feature to keep users engaged with achievable goals like 
-                "Strum along to 'Perfect' in just 2 chords"
-              </p>
-            </div>
-            
-            <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-6 border-2 border-pink-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                <span className="text-white text-xl">🎨</span>
-              </div>
-              <h3 className="mb-3 text-gray-800">Playful Visual Design</h3>
-              <p className="text-gray-600 text-sm">
-                Color-coded modules with soft pastels and playful icons make learning feel 
-                approachable and reduce intimidation factor
-              </p>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* Key Features */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-            Key Features Designed
-          </h2>
-          <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-cyan-100">
-            <div className="space-y-6">
-              <div className="border-l-4 border-purple-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Onboarding & Level Selection</h3>
-                <p className="text-gray-600">
-                  Clean onboarding flow with beautiful gradient backgrounds and the ToneUp logo. 
-                  Level selection screen with color-coded difficulty levels and clear descriptions
-                </p>
-              </div>
-              <div className="border-l-4 border-cyan-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Learning Dashboard</h3>
-                <p className="text-gray-600">
-                  Step-by-step interface showcasing all learning modules with visual indicators, 
-                  progress tracking, and playful decorative elements
-                </p>
-              </div>
-              <div className="border-l-4 border-orange-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Bottom Navigation</h3>
-                <p className="text-gray-600">
-                  Designed intuitive navigation bar with Home, Music, Tools, and User profile icons 
-                  for quick access to key sections
-                </p>
-              </div>
-              <div className="border-l-4 border-pink-500 pl-6">
-                <h3 className="mb-2 text-gray-800">Daily Engagement</h3>
-                <p className="text-gray-600">
-                  Featured "Song of the Day" with album artwork and achievable challenges to 
-                  maintain daily practice habits
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* Design Process */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 relative"
-        >
-          <motion.div
-            className="absolute -right-8 top-0 text-purple-300 opacity-30 hidden lg:block"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 5, repeat: Infinity }}
-          >
-            <DoodleCircle />
-          </motion.div>
-
-          <h2 className="mb-8 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-            Design Process
-          </h2>
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-0 border-t border-l border-black/10">
             {[
-              { step: "01", title: "User Research", desc: "Interviewed aspiring musicians to understand pain points in self-learning", color: "from-purple-600 to-pink-600" },
-              { step: "02", title: "Information Architecture", desc: "Mapped out user flows for different skill levels and learning paths", color: "from-cyan-600 to-blue-600" },
-              { step: "03", title: "Visual Identity", desc: "Developed color system using soft pastels to create approachable, friendly aesthetic", color: "from-orange-600 to-yellow-600" },
-              { step: "04", title: "UI Design", desc: "Created high-fidelity mockups in Figma with attention to hierarchy and readability", color: "from-pink-600 to-purple-600" },
-              { step: "05", title: "Micro-interactions", desc: "Designed playful animations and transitions to enhance engagement", color: "from-cyan-600 to-purple-600" }
+              { title: "DISCOVERY", desc: "User Interviews & Data Analysis" },
+              { title: "DEFINE", desc: "User Personas & Journey Maps" },
+              { title: "IDEATE", desc: "Wireframing & Logic Flows" },
+              { title: "PROTOTYPE", desc: "High-Fidelity Interaction Design" },
+              { title: "TEST", desc: "Usability Validation" }
             ].map((phase, index) => (
-              <motion.div
-                key={phase.step}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="flex gap-6 items-start"
-              >
-                <div className={`flex-shrink-0 w-16 h-16 bg-gradient-to-r ${phase.color} rounded-2xl flex items-center justify-center text-white shadow-lg`}>
-                  {phase.step}
+              <div key={index} className="border-r border-b border-black/10 p-6 hover:bg-black hover:text-white transition-colors duration-300 group min-h-[200px] flex flex-col justify-between">
+                <span className="font-mono text-xs opacity-50">PHASE_0{index + 1}</span>
+                <div>
+                  <h3 className="text-3xl font-bebas mb-2">{phase.title}</h3>
+                  <p className="font-mono text-[10px] opacity-60 max-w-[120px]">{phase.desc}</p>
                 </div>
-                <div className="flex-grow">
-                  <h3 className="mb-2 text-gray-800">{phase.title}</h3>
-                  <p className="text-gray-600">{phase.desc}</p>
-                </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.section>
 
-        {/* Design Decisions */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-            Design Decisions
-          </h2>
-          <div className="bg-gradient-to-br from-cyan-50 to-purple-50 rounded-3xl p-8 border-2 border-cyan-200">
-            <ul className="space-y-4 text-gray-700">
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">🎨</span>
-                <div>
-                  <strong>Color Psychology:</strong> Each skill level has its own color scheme 
-                  (purple for Elementary, blue for Beginner, cyan for Intermediate, orange for Advanced) 
-                  to create visual distinction and memorability
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">✨</span>
-                <div>
-                  <strong>Playful Elements:</strong> Star icons and decorative elements add personality 
-                  without overwhelming the clean, organized layout
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">📱</span>
-                <div>
-                  <strong>Mobile-First:</strong> Designed specifically for mobile devices with 
-                  thumb-friendly navigation and clear tap targets
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">🎯</span>
-                <div>
-                  <strong>Clear Hierarchy:</strong> Used card-based design with subtle shadows and 
-                  opacity to create depth and guide user attention
-                </div>
-              </li>
-            </ul>
-          </div>
-        </motion.section>
-
-        {/* Impact & Learnings */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-            Key Learnings
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-2xl p-6 border-2 border-cyan-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">User-Centered Design</h3>
-              <p className="text-gray-600 text-sm">
-                Learned the importance of adapting the interface to different skill levels - 
-                what works for beginners might overwhelm elementary users
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 border-2 border-purple-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">Visual Consistency</h3>
-              <p className="text-gray-600 text-sm">
-                Maintaining a cohesive color system and design language across all screens 
-                creates a professional, polished user experience
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 border-2 border-pink-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">Gamification Balance</h3>
-              <p className="text-gray-600 text-sm">
-                Finding the sweet spot between playful engagement and educational credibility 
-                is crucial for EdTech applications
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 border-2 border-orange-100 shadow-md">
-              <h3 className="mb-3 text-gray-800">Accessibility Matters</h3>
-              <p className="text-gray-600 text-sm">
-                Large, readable text and clear iconography ensure the app is usable for 
-                learners of all ages and abilities
-              </p>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* CTA */}
+        {/* CTA Footer */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center"
+          className="border-t-2 border-black pt-16 flex flex-col items-center text-center"
         >
+           <Cpu className="w-12 h-12 mb-6 text-black" strokeWidth={1} />
+           <h2 className="text-4xl font-bebas mb-8">SOURCE FILES AVAILABLE</h2>
+           
           <a 
             href="https://www.figma.com/design/94LASDImNBZld1HxxxhsYB/ToneUp?node-id=0-1&t=viX9az5xBZKWIW99-1"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex px-8 py-4 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-500 text-white rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 items-center gap-2"
+            className="inline-flex items-center gap-4 px-12 py-4 bg-black text-white font-bebas text-xl hover:bg-gray-800 transition-colors group relative overflow-hidden"
           >
+            <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             <Figma className="w-5 h-5" />
-            <span>View on Figma</span>
+            <span>ACCESS FIGMA DATA</span>
+            <ArrowUpRight className="w-5 h-5" />
           </a>
+          
+          <div className="mt-12 font-mono text-[10px] text-gray-400 tracking-widest">
+             SECURE CONNECTION ESTABLISHED // END OF FILE
+          </div>
         </motion.div>
       </div>
     </div>

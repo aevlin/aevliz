@@ -1,124 +1,128 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
-import aevLogo from "figma:asset/a66830c7851bb82c782e1358886681bda9a1ffde.png";
+import { useState } from "react";
+
+// A technical "Turbine/Reactor" icon that acts as a scroll indicator
+const ScrollTurbine = () => (
+  <svg viewBox="0 0 100 100" className="w-full h-full text-white fill-current">
+    {/* Outer Ring */}
+    <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="2" fill="none" />
+    <circle cx="50" cy="50" r="48" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.5" strokeDasharray="4 4" />
+    
+    {/* Center Hub */}
+    <circle cx="50" cy="50" r="10" fill="currentColor" />
+    
+    {/* Blades */}
+    <path d="M50 50 L50 5 L55 15 Z" />
+    <path d="M50 50 L85 20 L80 30 Z" />
+    <path d="M50 50 L95 50 L90 55 Z" />
+    <path d="M50 50 L85 80 L80 75 Z" />
+    <path d="M50 50 L50 95 L45 85 Z" />
+    <path d="M50 50 L15 80 L20 75 Z" />
+    <path d="M50 50 L5 50 L10 45 Z" />
+    <path d="M50 50 L15 20 L20 25 Z" />
+  </svg>
+);
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { scrollY } = useScroll();
-  const backgroundColor = useTransform(
-    scrollY,
-    [0, 100],
-    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.95)"]
-  );
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { scrollYProgress } = useScroll();
+  
+  // Rotate the turbine based on scroll progress (2 full rotations for the whole page)
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 720]);
 
   const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Experience", href: "#experience" },
-    { name: "Work", href: "#work" },
-    { name: "Skills", href: "#skills" },
-    { name: "Contact", href: "#contact" },
+    { name: "HOME", href: "#home" },
+    { name: "ABOUT", href: "#about" },
+    { name: "XP", href: "#experience" },
+    { name: "WORK", href: "#work" },
+    { name: "SKILLS", href: "#skills" },
+    { name: "CONTACT", href: "#contact" },
   ];
 
   return (
-    <motion.nav
-      style={{ backgroundColor }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "shadow-lg backdrop-blur-md" : ""
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <motion.a
-            href="#home"
-            className="relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <img 
-              src={aevLogo} 
-              alt="Aev" 
-              className="h-10 w-auto"
-            />
-          </motion.a>
+    <>
+      {/* Top Left: Scroll Turbine (Replaces Logo) */}
+      <motion.div className="fixed top-6 left-6 z-50 flex items-center gap-4 mix-blend-difference text-white pointer-events-none md:pointer-events-auto">
+        <a href="#home" className="block relative group">
+           <div className="w-10 h-10 relative">
+              {/* Static Crosshair */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                 <div className="w-full h-px bg-white/0" /> 
+                 <div className="w-3 h-3 border border-white/50 rounded-full" />
+              </div>
+              
+              {/* Rotating Turbine */}
+              <motion.div 
+                className="w-full h-full"
+                style={{ rotate }}
+              >
+                 <ScrollTurbine />
+              </motion.div>
+           </div>
+           
+           {/* Label */}
+           <div className="absolute -bottom-4 left-0 w-[200%] -translate-x-1/4 text-[8px] font-mono tracking-widest text-white/50 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+              SCROLL_TURBINE
+           </div>
+        </a>
+      </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item, index) => (
-              <motion.a
+      {/* Top Right: Menu / Time */}
+      <motion.div className="fixed top-6 right-6 z-50 mix-blend-difference text-white hidden md:flex flex-col items-end gap-1">
+         <div className="font-mono text-xs tracking-[0.2em]">{new Date().toLocaleTimeString()}</div>
+         <div className="flex gap-1">
+            {navItems.map((item, i) => (
+               <a 
+                 key={item.name} 
+                 href={item.href}
+                 className="px-3 py-1 border border-white/30 text-xs font-bebas tracking-wider hover:bg-white hover:text-black transition-colors"
+               >
+                 {item.name}
+               </a>
+            ))}
+         </div>
+      </motion.div>
+
+      {/* Mobile Toggle */}
+      <div className="fixed top-6 right-6 z-50 md:hidden mix-blend-difference text-white">
+         <button onClick={() => setIsOpen(!isOpen)} className="p-2 border border-white">
+            {isOpen ? <X /> : <Menu />}
+         </button>
+      </div>
+
+      {/* Bottom Bar HUD */}
+      <motion.div className="fixed bottom-6 left-6 right-6 z-40 flex justify-between items-end pointer-events-none mix-blend-difference text-white">
+         <div className="hidden md:block">
+            <span className="font-mono text-[10px] opacity-50">ARMOR: 100% | AMMO: ∞</span>
+         </div>
+         <div className="hidden md:block">
+            <span className="font-mono text-[10px] opacity-50">CURRENT_OBJ: EXPLORE_PORTFOLIO</span>
+         </div>
+      </motion.div>
+
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-40 bg-white text-black flex items-center justify-center md:hidden"
+        >
+          <div className="flex flex-col gap-6 text-center">
+            {navItems.map((item) => (
+              <a
                 key={item.name}
                 href={item.href}
-                className="relative text-gray-700 hover:text-purple-600 transition-colors duration-300 group"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => setIsOpen(false)}
+                className="text-4xl font-bebas hover:underline decoration-4 underline-offset-4"
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 group-hover:w-full transition-all duration-300" />
-              </motion.a>
-            ))}
-            <motion.a
-              href="#contact"
-              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              Let's Talk
-            </motion.a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-gray-700 hover:text-purple-600 transition-colors"
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden mt-4 pb-4"
-          >
-            <div className="flex flex-col gap-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-gray-700 hover:text-purple-600 transition-colors py-2"
-                >
-                  {item.name}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                onClick={() => setIsOpen(false)}
-                className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-center"
-              >
-                Let's Talk
               </a>
-            </div>
-          </motion.div>
-        )}
-      </div>
-    </motion.nav>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </>
   );
 }
