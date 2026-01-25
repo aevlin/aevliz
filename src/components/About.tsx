@@ -31,7 +31,7 @@ export function About() {
                {/* Photo Section */}
                <div className="w-full border-2 border-black mb-4 bg-gray-100 flex items-center justify-center overflow-hidden">
                   <img 
-                    src="me.png"
+                    src={myPhoto}
                     alt="Aevlin Prince" 
                     className="w-full h-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
