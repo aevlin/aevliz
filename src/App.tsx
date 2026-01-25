@@ -1,4 +1,4 @@
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect, useRef } from "react";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
@@ -20,6 +20,7 @@ import { AnimatePresence } from "motion/react";
 export default function App() {
   const [currentView, setCurrentView] = useState<"portfolio" | "toneup" | "aevflix" | "cavera" | "whatsapp1990s">("portfolio");
   const [loading, setLoading] = useState(true);
+  const lenisRef = useRef<Lenis | null>(null);
 
   // Initialize Lenis ONLY after loading is complete
   useLayoutEffect(() => {
@@ -35,6 +36,7 @@ export default function App() {
       smoothTouch: false,
       touchMultiplier: 2,
     });
+    lenisRef.current = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -63,48 +65,42 @@ export default function App() {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisRef.current = null;
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.removeEventListener('click', handleAnchorClick);
       });
     };
   }, [loading, currentView]); 
 
-  const handleProjectClick = (caseStudy: string) => {
-    if (caseStudy === "toneup") {
-      setCurrentView("toneup");
-    } else if (caseStudy === "aevflix") {
-      setCurrentView("aevflix");
-    } else if (caseStudy === "cavera") {
-      setCurrentView("cavera");
-    } else if (caseStudy === "whatsapp1990s") {
-      setCurrentView("whatsapp1990s");
+  // Reset scroll when view changes
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
     }
-    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [currentView]);
+
+  const handleProjectClick = (caseStudy: string) => {
+    if (caseStudy === "toneup") setCurrentView("toneup");
+    else if (caseStudy === "aevflix") setCurrentView("aevflix");
+    else if (caseStudy === "cavera") setCurrentView("cavera");
+    else if (caseStudy === "whatsapp1990s") setCurrentView("whatsapp1990s");
   };
 
   const handleBackToPortfolio = () => {
     setCurrentView("portfolio");
-    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white relative w-full overflow-x-hidden">
-       {/* Global styles to ensure scrollability */}
+    <div className="bg-white text-black font-sans selection:bg-black selection:text-white relative w-full">
+       {/* Global styles to ensure scrollability and Lenis compatibility */}
        <style>{`
-        html, body {
-          width: 100%;
-          min-height: 100%;
-          margin: 0;
-          padding: 0;
-          overflow-x: hidden;
-        }
-        /* Ensure Lenis works */
-        html.lenis, html.lenis body {
+        html.lenis {
           height: auto;
         }
         .lenis.lenis-smooth {
           scroll-behavior: auto !important;
-          overscroll-behavior: none;
         }
         .lenis.lenis-smooth [data-lenis-prevent] {
           overscroll-behavior: contain;
@@ -112,8 +108,15 @@ export default function App() {
         .lenis.lenis-stopped {
           overflow: hidden;
         }
-        .lenis.lenis-scrolling iframe {
-          pointer-events: none;
+        /* Allow scrolling by default on html/body */
+        html, body {
+           width: 100%;
+           min-height: 100%;
+           margin: 0;
+           padding: 0;
+           overflow-x: hidden;
+           /* Ensure native scroll is available if lenis fails or for accessibility */
+           overflow-y: auto; 
         }
       `}</style>
 
@@ -125,7 +128,7 @@ export default function App() {
         <>
           <CursorEffect />
           {currentView === "portfolio" ? (
-            <main className="w-full">
+            <main className="w-full relative">
               <Navbar />
               <section id="home">
                 <Hero />
@@ -151,7 +154,7 @@ export default function App() {
               <Footer />
             </main>
           ) : (
-             <div className="bg-white text-black w-full">
+             <div className="bg-white text-black w-full relative">
                 {currentView === "toneup" && <ToneUp onBack={handleBackToPortfolio} />}
                 {currentView === "aevflix" && <AEVFLIX onBack={handleBackToPortfolio} />}
                 {currentView === "cavera" && <Cavera onBack={handleBackToPortfolio} />}

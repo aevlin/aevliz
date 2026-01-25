@@ -1,144 +1,123 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
-// Crisp, high-fidelity commercial airliner silhouette
-const Airliner = () => (
-  <svg viewBox="0 0 600 200" className="w-full h-full text-white fill-current">
-    {/* Main Fuselage */}
-    <path d="M 520 90 C 560 100, 560 120, 520 130 L 80 130 C 40 130, 20 110, 80 90 Z" />
-    
-    {/* Tail / Vertical Stabilizer - Classic shape */}
-    <path d="M 85 90 L 120 20 L 180 20 L 160 90 Z" />
-    
-    {/* Wing (Foreground) - Angled for takeoff look */}
-    <path d="M 260 100 L 220 150 L 380 150 L 420 100 Z" />
-    
-    {/* Engine (Under wing) */}
-    <path d="M 280 140 L 280 155 L 340 155 L 345 140 Z" />
-    
-    {/* Cockpit */}
-    <path d="M 500 95 L 500 105 L 525 105 C 530 105, 530 95, 525 95 Z" fillOpacity="0.5" />
-    
-    {/* Windows */}
-    {[...Array(15)].map((_, i) => (
-      <circle key={i} cx={180 + i * 20} cy="105" r="3" fill="black" />
-    ))}
-  </svg>
-);
-
 export function TakeOffLoader({ onComplete }: { onComplete: () => void }) {
-  const [status, setStatus] = useState<"ROLL" | "V1" | "ROTATE" | "CLIMB" | "COMPLETE">("ROLL");
+  const [phase, setPhase] = useState<"READY" | "FOLD" | "TAKEOFF" | "EXIT">("READY");
 
   useEffect(() => {
-    // A clean, logical takeoff timeline
-    const timeline = [
-      { t: 100, s: "ROLL" as const },      // Start moving
-      { t: 2000, s: "V1" as const },       // Speed committed
-      { t: 3000, s: "ROTATE" as const },   // Nose up
-      { t: 4000, s: "CLIMB" as const },    // Lift off
-      { t: 5500, s: "COMPLETE" as const }, // Done
+    // Cinematic 3.5s sequence
+    const sequence = [
+      { t: 100, p: "READY" as const },
+      { t: 800, p: "FOLD" as const },      // Plane constructs itself
+      { t: 2000, p: "TAKEOFF" as const },  // Launches
+      { t: 3000, p: "EXIT" as const }      // Transition out
     ];
 
-    const timers = timeline.map(item => setTimeout(() => setStatus(item.s), item.t));
-    const finalTimer = setTimeout(onComplete, 6000);
+    const timeouts = sequence.map(s => setTimeout(() => setPhase(s.p), s.t));
+    const finalTimer = setTimeout(onComplete, 3200);
 
     return () => {
-      timers.forEach(clearTimeout);
+      timeouts.forEach(clearTimeout);
       clearTimeout(finalTimer);
     };
   }, [onComplete]);
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[9999] bg-black text-white flex flex-col items-center justify-center overflow-hidden font-mono"
       animate={{ 
-        y: status === "COMPLETE" ? "-100%" : "0%"
+         y: phase === "EXIT" ? "-100%" : "0%",
+         opacity: phase === "EXIT" ? 0 : 1
       }}
-      transition={{ 
-        duration: 0.8, 
-        ease: [0.76, 0, 0.24, 1] 
-      }}
+      transition={{ duration: 0.8, ease: "easeInOut" }}
     >
-      {/* 
-        Container ensures the plane is centered but has room to climb.
-        We use a fixed aspect ratio container to keep things predictable.
-      */}
-      <div className="relative w-full max-w-5xl h-[500px] flex items-center justify-center border-y border-white/10 bg-black">
-        
-        {/* RUNWAY STRIP: A clear reference point for speed */}
-        <div className="absolute bottom-20 left-0 right-0 h-px bg-white/20" /> {/* Ground line */}
-        
-        <div className="absolute bottom-20 left-0 right-0 h-4 overflow-hidden">
-          <motion.div 
-            className="flex gap-40 absolute top-0 left-0"
-            animate={{ x: status === "ROLL" ? -500 : -5000 }}
-            transition={{ 
-              duration: status === "ROLL" ? 5 : 2,
-              ease: status === "ROLL" ? "easeIn" : "linear",
-              repeat: Infinity 
-            }}
-          >
-             {[...Array(30)].map((_, i) => (
-                <div key={i} className="w-20 h-1 bg-white" />
-             ))}
-          </motion.div>
-        </div>
-
-        {/* THE PLANE */}
+      {/* Dynamic Grid Background - Moving down to simulate upward motion */}
+      <div className="absolute inset-0 perspective-[500px] overflow-hidden opacity-30">
         <motion.div
-           className="relative z-10 w-[400px] md:w-[600px] h-[200px]"
-           initial={{ x: 0, y: 30 }} // Starting position on "ground"
-           animate={{
-             x: status === "ROLL" ? 0 : 
-                status === "V1" ? 0 : 
-                status === "ROTATE" ? 50 : 600, // Move forward on climb
-             y: status === "ROTATE" ? 0 : 
-                status === "CLIMB" ? -250 : 30, // Lift up significantly
-             rotate: status === "ROTATE" ? -10 : 
-                     status === "CLIMB" ? -20 : 0 // Pitch up
-           }}
-           transition={{
-             x: { duration: 3, ease: "linear" },
-             y: { duration: 2, ease: "easeInOut" },
-             rotate: { duration: 1.5, ease: "easeInOut" }
-           }}
+           className="absolute inset-0 bg-[linear-gradient(transparent_0%,#ffffff_100%)] opacity-20"
+           animate={{ opacity: phase === "TAKEOFF" ? 0.5 : 0 }}
+        />
+        <motion.div 
+           className="w-full h-[200%] absolute -top-[100%] left-0 grid grid-cols-6 grid-rows-12 gap-1 border-white/10"
+           animate={{ y: phase === "TAKEOFF" ? "50%" : "0%" }}
+           transition={{ duration: 1.5, ease: "circIn" }}
         >
-           <Airliner />
+           {[...Array(72)].map((_,i) => (
+             <div key={i} className="border border-white/5" />
+           ))}
         </motion.div>
+      </div>
 
-        {/* SPEEDOMETER / INFO (Kept separate to avoid visual overlap) */}
-        <div className="absolute top-10 right-10 text-right">
-           <div className="text-white text-6xl font-bebas tracking-tighter">
-             <Counter 
-               from={0} 
-               to={status === "ROLL" ? 80 : status === "V1" ? 140 : status === "ROTATE" ? 160 : 250} 
-               duration={2} 
-             />
-             <span className="text-lg ml-2 opacity-50 font-mono">KTS</span>
-           </div>
-           <div className="text-white/50 font-mono text-sm tracking-widest mt-1">
-             STATUS: {status}
-           </div>
-        </div>
+      {/* Centerpiece: The Plane */}
+      <div className="relative z-10">
+         <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ 
+               scale: phase === "TAKEOFF" ? 0.5 : 1, 
+               opacity: 1,
+               y: phase === "TAKEOFF" ? -400 : 0
+            }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+         >
+            <svg width="200" height="200" viewBox="0 0 100 100" className="drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+               
+               {/* Left Wing */}
+               <motion.path 
+                  d="M 50 20 L 20 80 L 50 60 Z" 
+                  fill="white" 
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: phase === "READY" ? 0 : 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+               />
+               
+               {/* Right Wing */}
+               <motion.path 
+                  d="M 50 20 L 80 80 L 50 60 Z" 
+                  fill="#e2e8f0" 
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: phase === "READY" ? 0 : 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+               />
 
+               {/* Center Body */}
+               <motion.path 
+                  d="M 50 15 L 50 90" 
+                  stroke="white" 
+                  strokeWidth="0.5"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.5 }}
+               />
+
+               {/* Thrust/Engine Effect */}
+               <motion.circle 
+                  cx="50" cy="85" r="2" 
+                  fill="white"
+                  animate={{ 
+                     scale: phase === "TAKEOFF" ? [1, 20] : 1,
+                     opacity: phase === "TAKEOFF" ? [1, 0] : 0
+                  }}
+                  transition={{ duration: 0.8 }}
+               />
+            </svg>
+         </motion.div>
+      </div>
+
+      {/* Loading Text / Coordinates */}
+      <div className="absolute bottom-12 flex flex-col items-center gap-2 text-xs tracking-[0.3em] text-white/50">
+         <motion.div animate={{ opacity: phase === "TAKEOFF" ? 0 : 1 }}>
+            {phase === "READY" ? "INITIALIZING..." : phase === "FOLD" ? "ASSEMBLING" : "LAUNCH"}
+         </motion.div>
+         <div className="w-24 h-px bg-white/20 overflow-hidden">
+            <motion.div 
+               className="h-full bg-white"
+               initial={{ x: "-100%" }}
+               animate={{ x: "0%" }}
+               transition={{ duration: 3, ease: "linear" }}
+            />
+         </div>
       </div>
 
     </motion.div>
   );
-}
-
-// Simple counter for the speed display
-function Counter({ from, to, duration }: { from: number, to: number, duration: number }) {
-  const [val, setVal] = useState(from);
-  useEffect(() => {
-    let start = 0;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / (duration * 1000), 1);
-      setVal(Math.floor(progress * (to - from) + from));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [from, to, duration]);
-  return <span>{val}</span>;
 }

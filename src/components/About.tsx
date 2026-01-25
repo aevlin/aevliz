@@ -9,14 +9,15 @@ export function About() {
     offset: ["start end", "end start"]
   });
 
-  const xCard = useTransform(scrollYProgress, [0, 0.5], [-100, 0]);
+  const xCard = useTransform(scrollYProgress, [0, 0.5], [-50, 0]);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  const rotateY = useTransform(scrollYProgress, [0, 0.5], [-20, 0]);
+  // Reduced rotation for better visibility
+  const rotateY = useTransform(scrollYProgress, [0, 0.5], [-10, 0]);
 
   return (
     <section ref={containerRef} className="py-24 px-6 bg-white text-black relative overflow-hidden min-h-screen flex items-center justify-center">
       
-      <div className="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center perspective-1000">
+      <div className="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-start perspective-1000">
         {/* Left: Professional Card */}
         <motion.div 
           style={{ x: xCard, opacity, rotateY, transformStyle: "preserve-3d" }}
@@ -24,14 +25,15 @@ export function About() {
         >
           {/* Card Container */}
           <div className="bg-white border border-black p-2 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-transform duration-300 group-hover:-translate-y-2">
-            <div className="bg-gray-50 border border-black/10 p-6 flex flex-col gap-6 relative overflow-hidden">
+            {/* Removed overflow-hidden from here to allow full content visibility */}
+            <div className="bg-gray-50 border border-black/10 p-6 flex flex-col gap-6 relative">
                
                {/* Photo Section */}
-               <div className="w-full aspect-square overflow-hidden border-2 border-black mb-4 bg-gray-100 flex items-center justify-center">
+               <div className="w-full border-2 border-black mb-4 bg-gray-100 flex items-center justify-center overflow-hidden">
                   <img 
                     src={myPhoto}
                     alt="Aevlin Prince" 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="w-full h-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                </div>
 
@@ -57,7 +59,7 @@ export function About() {
                   </div>
                </div>
 
-               {/* Barcode / ID Block for aesthetics instead of skills */}
+               {/* Barcode / ID Block */}
                <div className="pt-4 flex justify-between items-end opacity-50">
                    <div className="flex gap-1 h-8 items-end">
                        {[...Array(20)].map((_,i) => (
@@ -75,7 +77,7 @@ export function About() {
            initial={{ opacity: 0, x: 50 }}
            whileInView={{ opacity: 1, x: 0 }}
            transition={{ duration: 0.8 }}
-           className="space-y-8"
+           className="space-y-8 md:mt-10"
         >
            <div>
               <h2 className="text-6xl md:text-8xl font-bebas mb-6 flex items-center gap-4">
@@ -88,10 +90,10 @@ export function About() {
               </p>
            </div>
            
-           {/* Minimal signature / statement instead of traits grid */}
+           {/* Philosophy */}
            <div className="border-l-2 border-black pl-6 py-2">
                <p className="font-mono text-sm text-gray-500 uppercase tracking-widest mb-2">Philosophy</p>
-               <p className="font-bebas text-3xl">"DESIGN IS INTELLIGENCE MADE VISIBLE."</p>
+               <p className="font-bebas text-3xl">"ANYTHING THAT LOOKS BEAUTIFUL AND COMMANDS ATTENTION IS DESIGN."</p>
            </div>
         </motion.div>
       </div>
