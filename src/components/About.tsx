@@ -1,102 +1,283 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
-import myPhoto from "figma:asset/96da5d86904a30632bffd3058c2407454130c1bb.png";
+import { motion } from "motion/react";
+import { Star,  Crown, Flame, Hash, Download } from "lucide-react";
+import { SiFigma, SiSketch, SiAdobexd, SiAdobephotoshop, SiHtml5, SiCss3, SiJavascript, SiBootstrap } from "react-icons/si";
 
 export function About() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const xCard = useTransform(scrollYProgress, [0, 0.5], [-50, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  // Reduced rotation for better visibility
-  const rotateY = useTransform(scrollYProgress, [0, 0.5], [-10, 0]);
-
   return (
-    <section ref={containerRef} className="py-24 px-6 bg-white text-black relative overflow-hidden min-h-screen flex items-center justify-center">
+    <section className="py-24 px-4 bg-[#050505] text-white overflow-hidden relative">
       
-      <div className="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-start perspective-1000">
-        {/* Left: Professional Card */}
-        <motion.div 
-          style={{ x: xCard, opacity, rotateY, transformStyle: "preserve-3d" }}
-          className="relative group"
-        >
-          {/* Card Container */}
-          <div className="bg-white border border-black p-2 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-transform duration-300 group-hover:-translate-y-2">
-            {/* Removed overflow-hidden from here to allow full content visibility */}
-            <div className="bg-gray-50 border border-black/10 p-6 flex flex-col gap-6 relative">
-               
-               {/* Photo Section */}
-               <div className="w-full border-2 border-black mb-4 bg-gray-100 flex items-center justify-center overflow-hidden">
-                  <img 
-                    src={myPhoto}
-                    alt="Aevlin Prince" 
-                    className="w-full h-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
-                  />
-               </div>
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D9FF00]/5 blur-[120px] rounded-full pointer-events-none" />
 
-               <div className="flex justify-between items-start border-b-2 border-black pb-4">
-                  <div>
-                    <h2 className="text-4xl font-bebas leading-none">AEVLIN PRINCE</h2>
-                    <span className="font-mono text-xs bg-black text-white px-1">UI/UX ENGINEER</span>
-                  </div>
-               </div>
+      <div className="max-w-6xl mx-auto relative z-10">
+        
+        {/* HEADER: ABOUT ME */}
+        <div className="mb-16 md:mb-24 flex flex-col md:flex-row gap-12 items-start">
+           <div className="flex-1">
+              <motion.div 
+                 initial={{ opacity: 0, y: 20 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 className="inline-block mb-4"
+              >
+                 <div className="flex items-center gap-2 text-[#D9FF00] font-mono text-sm font-bold uppercase tracking-widest mb-2">
+                    <span className="w-2 h-2 bg-[#D9FF00] rounded-full animate-pulse" />
+                    Who I Am
+                 </div>
+              </motion.div>
+              
+              <motion.h2 
+                 initial={{ opacity: 0, y: 20 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 transition={{ delay: 0.1 }}
+                 className="text-4xl md:text-5xl font-black leading-tight mb-8"
+              >
+                 Passionate designer creating <span className="text-transparent text-stroke-yellow">meaningful</span> digital experiences.
+              </motion.h2>
 
-               <div className="space-y-4 font-mono text-sm">
-                  <div className="flex justify-between border-b border-gray-200 pb-1">
-                     <span className="text-gray-500">FOCUS</span>
-                     <span className="font-bold">INTERFACES & EXPERIENCE</span>
-                  </div>
-                  <div className="flex flex-col border-b border-gray-200 pb-1">
-                     <span className="text-gray-500 mb-1">EDUCATION</span>
-                     <span className="font-bold uppercase leading-tight">AMAL JYOTHI COLLEGE OF ENGINEERING</span>
-                  </div>
-                  <div className="flex justify-between border-b border-gray-200 pb-1">
-                     <span className="text-gray-500">LOCATION</span>
-                     <span className="font-bold">KERALA, INDIA</span>
-                  </div>
-               </div>
-
-               {/* Barcode / ID Block */}
-               <div className="pt-4 flex justify-between items-end opacity-50">
-                   <div className="flex gap-1 h-8 items-end">
-                       {[...Array(20)].map((_,i) => (
-                           <div key={i} className={`w-[2px] bg-black ${i % 3 === 0 ? 'h-full' : 'h-1/2'}`} />
-                       ))}
-                   </div>
-                   <span className="font-mono text-[10px]">ID: 994-230-AEV</span>
-               </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Right: Bio */}
-        <motion.div 
-           initial={{ opacity: 0, x: 50 }}
-           whileInView={{ opacity: 1, x: 0 }}
-           transition={{ duration: 0.8 }}
-           className="space-y-8 md:mt-10"
-        >
-           <div>
-              <h2 className="text-6xl md:text-8xl font-bebas mb-6 flex items-center gap-4">
-                 <span className="w-4 h-full bg-black block" />
-                 ABOUT ME
-              </h2>
-              <p className="text-xl md:text-2xl font-light leading-relaxed text-gray-700">
-                 Obsessed with the psychology of <span className="font-bold bg-black text-white px-1">User Experience</span>. 
-                 I transform complex requirements into intuitive digital journeys. My process is rooted in empathy, data-driven decisions, and pixel-perfect execution to build interfaces that are not just beautiful, but deeply functional.
-              </p>
+              <motion.div 
+                 initial={{ opacity: 0 }}
+                 whileInView={{ opacity: 1 }}
+                 viewport={{ once: true }}
+                 transition={{ delay: 0.2 }}
+                 className="text-gray-400 leading-relaxed font-mono text-sm space-y-4 max-w-2xl"
+              >
+                 <p>
+                    I'm <strong className="text-white">Aevlin Prince</strong>, a passionate designer from Kottayam, Kerala, currently pursuing my studies at Amal Jyothi College of Engineering. I specialize in creating meaningful digital experiences that blend aesthetics with functionality.
+                 </p>
+                 <p>
+                    With experience in UI/UX design, web development, and brand identity, I bring a holistic approach to every project. My journey in design has been shaped by various leadership roles in IEEE, ACM, NSS, and LEO Club International.
+                 </p>
+                 <p>
+                    I believe in design that tells stories, solves problems, and creates lasting impact. Whether it's crafting intuitive interfaces, building responsive websites, or developing brand identities, I approach each project with attention to detail and user-centered thinking.
+                 </p>
+              </motion.div>
            </div>
+        </div>
+
+
+        {/* MAIN CONTENT GRID: Education (Sticky) + Experience (Receipt) */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start">
            
-           {/* Philosophy */}
-           <div className="border-l-2 border-black pl-6 py-2">
-               <p className="font-mono text-sm text-gray-500 uppercase tracking-widest mb-2">Philosophy</p>
-               <p className="font-bebas text-3xl">"ANYTHING THAT LOOKS BEAUTIFUL AND COMMANDS ATTENTION IS DESIGN."</p>
+           {/* LEFT COLUMN: Education & Skills */}
+           <div className="md:col-span-5 flex flex-col gap-8">
+              
+              {/* EDUCATION STICKY NOTE */}
+              <motion.div 
+                 initial={{ rotate: -2, scale: 0.9, opacity: 0 }}
+                 whileInView={{ rotate: -2, scale: 1, opacity: 1 }}
+                 viewport={{ once: true }}
+                 whileHover={{ rotate: 0, scale: 1.02 }}
+                 className="bg-[#D9FF00] text-black p-8 shadow-[0_10px_40px_rgba(217,255,0,0.2)] relative"
+                 style={{ 
+                    clipPath: "polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%)" // Folded corner effect
+                 }}
+              >
+                 <h3 className="text-4xl font-black mb-8 tracking-tighter">education</h3>
+                 
+                 <div className="space-y-6 font-mono text-sm">
+                    <div className="border-b border-black/10 pb-4">
+                       <div className="flex justify-between font-bold mb-1">
+                          <span>Amal Jyothi College</span>
+                          <span>Current</span>
+                       </div>
+                       <p className="text-black/70 text-xs">Engineering</p>
+                    </div>
+
+                    <div className="border-b border-black/10 pb-4">
+                       <div className="flex justify-between font-bold mb-1">
+                          <span>Girideepam Bethany</span>
+                          <span>2022-23</span>
+                       </div>
+                       <p className="text-black/70 text-xs">Higher Secondary School</p>
+                    </div>
+                 </div>
+
+                 {/* Tape graphic at top */}
+                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-8 bg-white/30 backdrop-blur-sm rotate-1 shadow-sm" />
+              </motion.div>
+
+
+              {/* SKILLS SECTION */}
+              <div className="mt-8">
+                 <h3 className="text-2xl font-black text-white uppercase mb-6 flex items-center gap-2">
+                    <Star className="text-[#D9FF00] fill-[#D9FF00]" /> My Tools
+                 </h3>
+                 
+                 <div className="grid grid-cols-4 gap-4">
+                    <SkillIcon icon={<SiFigma size={24} />} name="Figma" />
+                    <SkillIcon icon={<SiSketch size={24} />} name="Sketch" />
+                    <SkillIcon icon={<SiAdobexd size={24} />} name="XD" />
+                    <SkillIcon icon={<SiAdobephotoshop size={24} />} name="Ps" />
+                    <SkillIcon icon={<SiHtml5 size={24} />} name="HTML" />
+                    <SkillIcon icon={<SiCss3 size={24} />} name="CSS" />
+                    <SkillIcon icon={<SiJavascript size={24} />} name="JS" />
+                    <SkillIcon icon={<SiBootstrap size={24} />} name="Bs" />
+                 </div>
+              </div>
+
            </div>
-        </motion.div>
+
+
+           {/* RIGHT COLUMN: Experience Receipt */}
+           <div className="md:col-span-7">
+              <motion.div 
+                 initial={{ y: 50, opacity: 0 }}
+                 whileInView={{ y: 0, opacity: 1 }}
+                 viewport={{ once: true }}
+                 className="bg-white text-black p-6 md:p-10 relative shadow-2xl mx-auto max-w-lg rotate-1 origin-top-left"
+              >
+                 {/* Receipt Header */}
+                 <div className="text-center border-b-2 border-dashed border-black/20 pb-6 mb-8">
+                    <h3 className="text-5xl font-black tracking-tighter mb-2">experience</h3>
+                    <p className="font-mono text-xs text-gray-500 uppercase tracking-widest">Official Record • Aevlin Prince</p>
+                 </div>
+
+                 {/* List */}
+                 <div className="space-y-8 relative">
+                    {/* Vertical Dotted Line */}
+                    <div className="absolute left-[7px] top-2 bottom-2 w-[2px] border-l-2 border-dotted border-black/20 hidden md:block" />
+
+                    <ExperienceItem 
+                       role="Media Lead" 
+                       org="National Service Scheme" 
+                       date="July 2025 - Present" 
+                       duration="4 months"
+                       isCurrent
+                    />
+                    <ExperienceItem 
+                       role="Design Co-Lead" 
+                       org="IEEE SB AJCE" 
+                       date="March 2025 - Present" 
+                       duration="8 months"
+                       isCurrent
+                    />
+                    <ExperienceItem 
+                       role="UI/UX Intern" 
+                       org="Cognifyz Technologies" 
+                       date="Apr 2025 - May 2025" 
+                       duration="2 months"
+                    />
+                    <ExperienceItem 
+                       role="Web Design Intern" 
+                       org="Tisser Technologies LLP" 
+                       date="April 2025" 
+                       duration="1 month"
+                       desc="Built responsive web pages using HTML, CSS, Bootstrap, & JS."
+                    />
+                    <ExperienceItem 
+                       role="Design Lead-W" 
+                       org="ACM AJCE STUDENT CHAPTER" 
+                       date="Apr 2024 - Mar 2025" 
+                       duration="1 year"
+                    />
+                     <ExperienceItem 
+                       role="Arts Captain" 
+                       org="Girideepam Bethany HSS" 
+                       date="2022 - 2023" 
+                       duration="1 year"
+                    />
+                    <ExperienceItem 
+                       role="Club President" 
+                       org="LEO Club International" 
+                       date="2020 - 2023" 
+                       duration="3 years"
+                       desc="Leo Club of Kottayam Buds (District 318 B)"
+                    />
+                    <ExperienceItem 
+                       role="MD Vice President" 
+                       org="LEO Club International" 
+                       date="2020 - 2022" 
+                       duration="2 years"
+                       desc="Secured 'Multiple District Vice President' position throughout Kerala."
+                    />
+                 </div>
+
+                 {/* Receipt Footer / Barcode */}
+                 <div className="mt-12 pt-8 border-t-2 border-dashed border-black/20 flex flex-col items-center gap-4">
+                    <div className="w-full h-12 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.svg/1200px-UPC-A-036000291452.svg.png')] bg-cover opacity-80 mix-blend-multiply" />
+                    <p className="font-mono text-[10px] text-center text-gray-400">
+                       THANK YOU FOR VISITING • AUTHENTICATED
+                    </p>
+                 </div>
+
+                 {/* Paper Texture Overlay */}
+                 <div className="absolute inset-0 bg-[#f0f0f0] opacity-30 mix-blend-multiply pointer-events-none" />
+                 
+                 {/* Top Jagged Edge (CSS Trick) */}
+                 <div className="absolute -top-2 left-0 w-full h-4 bg-transparent" 
+                      style={{ 
+                         background: "linear-gradient(135deg, transparent 33%, #fff 33%, #fff 66%, transparent 66%)", 
+                         backgroundSize: "20px 40px" 
+                      }} 
+                 />
+                 {/* Bottom Jagged Edge */}
+                 <div className="absolute -bottom-2 left-0 w-full h-4 bg-transparent rotate-180" 
+                      style={{ 
+                         background: "linear-gradient(135deg, transparent 33%, #fff 33%, #fff 66%, transparent 66%)", 
+                         backgroundSize: "20px 40px" 
+                      }} 
+                 />
+
+              </motion.div>
+           </div>
+
+        </div>
+
       </div>
+
+      <style>{`
+         .text-stroke-yellow {
+             -webkit-text-stroke: 1px #D9FF00;
+         }
+      `}</style>
     </section>
   );
+}
+
+function ExperienceItem({ role, org, date, duration, desc, isCurrent }: any) {
+   return (
+      <div className="relative pl-0 md:pl-8 group">
+         {/* Timeline Dot */}
+         <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-black bg-white group-hover:bg-[#D9FF00] transition-colors hidden md:block z-10" />
+         
+         <div className="flex justify-between items-baseline mb-1">
+            <h4 className="font-bold text-lg leading-none">{role}</h4>
+            <span className="font-mono text-[10px] text-gray-500 whitespace-nowrap">{duration}</span>
+         </div>
+         
+         <p className="font-black text-xs uppercase tracking-wide mb-1 text-black/80">{org}</p>
+         
+         <div className="flex items-center gap-2 mb-2">
+            <span className="bg-black text-white text-[10px] px-2 py-0.5 rounded-sm font-mono">
+               {date}
+            </span>
+            {isCurrent && (
+               <span className="bg-[#D9FF00] text-black text-[10px] px-2 py-0.5 rounded-sm font-bold animate-pulse">
+                  NOW
+               </span>
+            )}
+         </div>
+
+         {desc && (
+            <p className="text-xs text-gray-500 font-mono leading-relaxed mt-2 border-l-2 border-gray-200 pl-2">
+               {desc}
+            </p>
+         )}
+      </div>
+   );
+}
+
+function SkillIcon({ icon, name }: { icon: any, name: string }) {
+   return (
+      <div className="flex flex-col items-center justify-center gap-2 p-4 bg-[#111111] rounded-xl border border-white/10 hover:border-[#D9FF00] hover:bg-[#1A1A1A] transition-all group cursor-default">
+         <div className="text-gray-400 group-hover:text-[#D9FF00] group-hover:scale-110 transition-transform duration-300">
+            {icon}
+         </div>
+         <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider group-hover:text-white">
+            {name}
+         </span>
+      </div>
+   );
 }

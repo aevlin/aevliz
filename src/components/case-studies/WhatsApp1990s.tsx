@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Figma, ArrowUpRight, Crosshair, Smartphone } from "lucide-react";
+import { ArrowLeft, Figma, ArrowUpRight, Crosshair, Smartphone, Star } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import whatsappUI from "figma:asset/fa2cf2fb22ec2e685b4392bdad23b00d94dbc3af.png";
 
@@ -9,203 +9,181 @@ interface WhatsApp1990sProps {
 
 export function WhatsApp1990s({ onBack }: WhatsApp1990sProps) {
   return (
-    <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
-      `}</style>
-
+    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-[#D9FF00] selection:text-black">
+      
       {/* Fixed Header / Nav */}
       <motion.div 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/90 backdrop-blur-md border-b border-black/10"
+        className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-[#050505]/80 backdrop-blur-md border-b border-white/10"
       >
         <button
             onClick={onBack}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2 group hover:text-[#D9FF00] transition-colors"
         >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            <span className="font-bebas text-xl tracking-wide">BACK TO INDEX</span>
+            <span className="font-bold tracking-wider text-sm">BACK</span>
         </button>
         <div className="hidden md:flex items-center gap-4 font-mono text-[10px] tracking-widest text-gray-500">
-            <span>SYS.STATUS: ONLINE</span>
-            <span>ID: PRJ-004</span>
+            <span className="text-[#D9FF00]">● LIVE</span>
+            <span>PRJ-004 // WA-90S</span>
         </div>
       </motion.div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 relative border-x border-black/5 min-h-screen">
-        {/* Background Grid */}
-        <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-
-        {/* Hero Section */}
+      <div className="max-w-6xl mx-auto px-4 md:px-6 pt-32 pb-24 relative min-h-screen">
+        
+        {/* HERO SECTION */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="relative z-10 mb-24"
         >
-          <div className="flex flex-col md:flex-row gap-12 items-end mb-16 border-b-2 border-black pb-12">
-            <div className="flex-1">
-              <div className="flex items-center gap-4 mb-6">
-                 <span className="font-mono text-xs bg-black text-white px-2 py-1">RETRO CONCEPT</span>
-              </div>
-              <h1 className="text-7xl md:text-[9rem] font-bebas leading-[0.8] mb-6">
-                WHATSAPP 90S
-              </h1>
-              <p className="font-mono text-sm md:text-base text-gray-600 max-w-2xl leading-relaxed uppercase tracking-wide">
-                Nostalgic interface exploration reimagining modern messaging protocols through the visual constraints of 1990s hardware.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-x-12 gap-y-4 w-full md:w-auto border-l border-black/10 pl-8">
-              {[
-                { label: "ROLE", value: "UI/UX DESIGNER" },
-                { label: "TIMELINE", value: "2 WEEKS" },
-                { label: "STACK", value: "FIGMA" },
-                { label: "VERSION", value: "v0.9.beta" }
-              ].map((metric) => (
-                <div key={metric.label}>
-                  <div className="text-[10px] font-mono tracking-widest text-gray-400 mb-1">{metric.label}</div>
-                  <div className="text-xl font-bebas tracking-wide">{metric.value}</div>
+          {/* Title Area */}
+          <div className="flex flex-col md:flex-row gap-8 items-end mb-12 border-b border-white/10 pb-12">
+             <div className="flex-1">
+                <div className="inline-flex items-center gap-2 border border-[#D9FF00] px-3 py-1 rounded-full text-[#D9FF00] font-mono text-xs font-bold uppercase tracking-widest mb-6">
+                   <Smartphone size={12} className="fill-current" />
+                   Retro Concept
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Technical Hero Image Frame */}
-          <div className="relative w-full bg-gray-100 mb-24 group border border-black flex items-center justify-center p-12">
-             {/* Technical Markers */}
-             <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-black z-20" />
-             <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-black z-20" />
-             <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-black z-20" />
-             <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-black z-20" />
-             
-             {/* Crosshair Overlay */}
-             <div className="absolute inset-0 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                   <Crosshair className="w-12 h-12 text-white drop-shadow-md" strokeWidth={1} />
-                </div>
-                {/* Grid Overlay */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+                <h1 className="text-5xl md:text-9xl font-black leading-[0.85] tracking-tighter mb-6">
+                   WHATSAPP <span className="text-transparent text-stroke-yellow">90S</span>
+                </h1>
+                <p className="text-gray-400 max-w-xl text-lg leading-relaxed border-l-2 border-[#D9FF00] pl-6">
+                   Nostalgic interface exploration reimagining modern messaging protocols through the visual constraints of 1990s hardware.
+                </p>
              </div>
 
-            <ImageWithFallback 
-              src={whatsappUI} 
-              alt="WhatsApp 1990s UI" 
-              className="w-full h-auto object-contain max-h-[70vh] grayscale group-hover:grayscale-0 transition-all duration-700 relative z-10 drop-shadow-xl"
-            />
-            
-            {/* Tag */}
-            <div className="absolute bottom-4 right-4 bg-white border border-black px-2 py-1 z-20">
-               <span className="font-mono text-[10px] uppercase">FIG-IMG-004</span>
-            </div>
+             {/* Metadata Table */}
+             <div className="w-full md:w-auto bg-[#111] border border-white/10 p-6 rounded-xl">
+                <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                   <MetaItem label="ROLE" value="UI/UX Designer" />
+                   <MetaItem label="TIMELINE" value="2 Weeks" />
+                   <MetaItem label="STACK" value="Figma" />
+                   <MetaItem label="VERSION" value="v0.9.beta" />
+                </div>
+             </div>
+          </div>
+
+          {/* Clean Hero Image - Using user provided asset */}
+          <div className="relative w-full aspect-video border border-white/10 rounded-xl overflow-hidden shadow-2xl bg-[#111]">
+             <ImageWithFallback 
+               src={whatsappUI} 
+               alt="WhatsApp 90s Hero" 
+               className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+             />
+             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
           </div>
         </motion.div>
 
-        {/* Project Details Grid */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-32 grid md:grid-cols-2 gap-16"
-        >
-          <div>
-            <h3 className="font-mono text-xs text-gray-400 mb-4 tracking-widest">[01] OVERVIEW</h3>
-            <h2 className="text-4xl md:text-5xl font-bebas mb-6 leading-none">THE CONCEPT</h2>
-            <div className="space-y-6 font-mono text-sm leading-relaxed text-gray-600">
-               <p>
-                 A "what if" scenario: implementing end-to-end encryption and rich media sharing on 16-bit monochrome displays. This project explores the friction between modern functionality and vintage constraints.
-               </p>
-               <ul className="space-y-4 mt-6 border-l-2 border-black pl-6">
-                 {[
-                   "160x160px resolution constraints",
-                   "Monochrome liquid crystal aesthetic",
-                   "Hardware-button navigation patterns"
-                 ].map((item, i) => (
-                   <li key={i} className="flex gap-4 items-start">
-                     <span className="text-black font-bold">0{i+1} //</span>
-                     <span>{item}</span>
-                   </li>
-                 ))}
-               </ul>
-            </div>
-          </div>
-          
-          <div>
-            <h3 className="font-mono text-xs text-gray-400 mb-4 tracking-widest">[02] SOLUTION</h3>
-            <h2 className="text-4xl md:text-5xl font-bebas mb-6 leading-none">DESIGN SPECS</h2>
-            <div className="grid gap-6">
-               {[
-                 { title: "PIXEL PERFECT", desc: "Custom pixel-art iconography and typography." },
-                 { title: "PALETTE LIMITATION", desc: "Strict 4-tone Nokia green scale for authenticity." },
-                 { title: "UX PATTERNS", desc: "Simplified tree-based menu navigation systems." }
-               ].map((item, i) => (
-                  <div key={i} className="border border-black/10 p-6 hover:border-black hover:bg-black hover:text-white transition-all duration-300 group">
-                     <h4 className="font-bebas text-2xl mb-2">{item.title}</h4>
-                     <p className="font-mono text-xs text-gray-500 group-hover:text-gray-300">{item.desc}</p>
-                  </div>
-               ))}
-            </div>
-          </div>
-        </motion.section>
 
-        {/* Screens List */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-32"
-        >
-           <div className="flex items-center gap-4 mb-12 border-b border-black/10 pb-4">
-             <div className="w-2 h-2 bg-black" />
-             <h2 className="text-5xl md:text-7xl font-bebas">SCREEN ARCHITECTURE</h2>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[
-              "BOOT SEQUENCE",
-              "CHAT INDEX",
-              "MESSAGE THREAD",
-              "CONTACT CARD",
-              "SETTINGS IO",
-              "CALL LOGS"
-            ].map((item, i) => (
-              <div key={i} className="border border-black/10 p-4 text-center hover:bg-black hover:text-white transition-colors duration-300 group cursor-default">
-                <span className="font-mono text-[10px] text-gray-400 block mb-2 group-hover:text-gray-600">SCR_0{i+1}</span>
-                <span className="font-bebas text-2xl tracking-wide">{item}</span>
-              </div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* CTA Footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="border-t-2 border-black pt-16 flex flex-col items-center text-center"
-        >
-           <Smartphone className="w-12 h-12 mb-6 text-black" strokeWidth={1} />
-           <h2 className="text-4xl font-bebas mb-8">SOURCE FILES AVAILABLE</h2>
+        {/* CONTENT GRID */}
+        <div className="grid md:grid-cols-12 gap-12 mb-32">
            
-          <a 
-            href="https://www.figma.com/design/Qgr4ZdigW02AahROYE2cqm/Whatsapp-1990s"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-4 px-12 py-4 bg-black text-white font-bebas text-xl hover:bg-gray-800 transition-colors group relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            <Figma className="w-5 h-5" />
-            <span>ACCESS FIGMA DATA</span>
-            <ArrowUpRight className="w-5 h-5" />
-          </a>
-          
-          <div className="mt-12 font-mono text-[10px] text-gray-400 tracking-widest">
-             SECURE CONNECTION ESTABLISHED // END OF FILE
-          </div>
-        </motion.div>
+           {/* Left: Sticky Note Description */}
+           <div className="md:col-span-4">
+              <div className="sticky top-32">
+                 <div className="bg-[#D9FF00] text-black p-8 relative shadow-[0_10px_40px_rgba(217,255,0,0.1)] -rotate-1">
+                    <h3 className="font-black text-3xl mb-4">THE CONCEPT</h3>
+                    <p className="font-mono text-sm leading-relaxed opacity-80 mb-6">
+                       A "what if" scenario: implementing end-to-end encryption and rich media sharing on 16-bit monochrome displays. This project explores the friction between modern functionality and vintage constraints.
+                    </p>
+                    <ul className="space-y-2 font-bold text-xs uppercase tracking-wider">
+                       <li className="flex items-center gap-2"><div className="w-1 h-1 bg-black" /> 160x160px Resolution</li>
+                       <li className="flex items-center gap-2"><div className="w-1 h-1 bg-black" /> Monochrome Aesthetic</li>
+                       <li className="flex items-center gap-2"><div className="w-1 h-1 bg-black" /> Hardware Navigation</li>
+                    </ul>
+                 </div>
+              </div>
+           </div>
+
+           {/* Right: Technical Details & Screens */}
+           <div className="md:col-span-8 space-y-20">
+              
+              {/* Solution Section */}
+              <section>
+                 <div className="flex items-center gap-4 mb-8">
+                    <span className="w-8 h-[2px] bg-[#D9FF00]" />
+                    <h3 className="text-2xl font-bold uppercase tracking-widest">Design Specs</h3>
+                 </div>
+                 
+                 <div className="grid gap-4">
+                    <FeatureCard title="Pixel Perfect" desc="Custom pixel-art iconography and typography." />
+                    <FeatureCard title="Palette Limitation" desc="Strict 4-tone Nokia green scale for authenticity." />
+                    <FeatureCard title="UX Patterns" desc="Simplified tree-based menu navigation systems." />
+                 </div>
+              </section>
+
+              {/* Screen Architecture (Grid of boxes) */}
+              <section className="bg-[#111] p-8 rounded-xl border border-white/10">
+                 <h3 className="text-xl font-bold mb-8 flex items-center gap-2">
+                    <Star size={16} className="text-[#D9FF00] fill-current" />
+                    SCREEN ARCHITECTURE
+                 </h3>
+                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {["Boot Sequence", "Chat Index", "Message Thread", "Contact Card", "Settings IO", "Call Logs"].map((item, i) => (
+                       <div key={i} className="border border-white/10 p-4 text-center hover:bg-[#D9FF00] hover:text-black transition-colors duration-300 cursor-default rounded-md">
+                          <span className="font-mono text-[10px] opacity-50 block mb-1">SCR_0{i+1}</span>
+                          <span className="font-bold text-sm uppercase tracking-wide">{item}</span>
+                       </div>
+                    ))}
+                 </div>
+              </section>
+              
+              {/* Original Hero Image embedded as a "detail" */}
+              <div className="border border-white/10 p-2 rounded-lg bg-[#050505] flex justify-center">
+                 <ImageWithFallback 
+                    src={whatsappUI} 
+                    alt="WhatsApp UI Detail" 
+                    className="max-w-full h-auto opacity-90 drop-shadow-2xl" 
+                 />
+              </div>
+
+           </div>
+        </div>
+
+        {/* CTA */}
+        <div className="flex justify-center border-t border-white/10 pt-20">
+           <a 
+             href="https://www.figma.com/design/Qgr4ZdigW02AahROYE2cqm/Whatsapp-1990s"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="group relative bg-[#D9FF00] text-black px-10 py-5 font-black text-xl uppercase tracking-wider hover:scale-105 transition-transform"
+           >
+              <div className="flex items-center gap-4 relative z-10">
+                 <Figma size={24} />
+                 <span>Access Figma File</span>
+                 <ArrowUpRight size={24} />
+              </div>
+              <div className="absolute top-2 left-2 w-full h-full border-2 border-white -z-10 group-hover:top-3 group-hover:left-3 transition-all" />
+           </a>
+        </div>
+
       </div>
+
+      <style>{`
+         .text-stroke-yellow {
+             -webkit-text-stroke: 1px #D9FF00;
+         }
+      `}</style>
     </div>
   );
+}
+
+function MetaItem({ label, value }: { label: string, value: string }) {
+   return (
+      <div>
+         <div className="text-[10px] font-mono text-gray-500 mb-1 tracking-widest">{label}</div>
+         <div className="text-white font-bold text-lg">{value}</div>
+      </div>
+   );
+}
+
+function FeatureCard({ title, desc }: { title: string, desc: string }) {
+   return (
+      <div className="border border-white/10 p-6 hover:border-[#D9FF00] transition-colors group">
+         <h4 className="font-bold text-xl mb-2 group-hover:text-[#D9FF00]">{title}</h4>
+         <p className="font-mono text-xs text-gray-400 leading-relaxed">{desc}</p>
+      </div>
+   );
 }

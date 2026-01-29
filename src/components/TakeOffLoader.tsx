@@ -2,121 +2,135 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 export function TakeOffLoader({ onComplete }: { onComplete: () => void }) {
-  const [phase, setPhase] = useState<"READY" | "FOLD" | "TAKEOFF" | "EXIT">("READY");
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    // Cinematic 3.5s sequence
-    const sequence = [
-      { t: 100, p: "READY" as const },
-      { t: 800, p: "FOLD" as const },      // Plane constructs itself
-      { t: 2000, p: "TAKEOFF" as const },  // Launches
-      { t: 3000, p: "EXIT" as const }      // Transition out
-    ];
+    // Slightly longer duration to enjoy the cuteness
+    const timer = setTimeout(() => {
+      setIsComplete(true);
+      setTimeout(onComplete, 800);
+    }, 3000);
 
-    const timeouts = sequence.map(s => setTimeout(() => setPhase(s.p), s.t));
-    const finalTimer = setTimeout(onComplete, 3200);
-
-    return () => {
-      timeouts.forEach(clearTimeout);
-      clearTimeout(finalTimer);
-    };
+    return () => clearTimeout(timer);
   }, [onComplete]);
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] bg-black text-white flex flex-col items-center justify-center overflow-hidden font-mono"
+      className="fixed inset-0 z-[9999] bg-[#050505] text-[#D9FF00] flex flex-col items-center justify-center select-none"
+      initial={{ opacity: 1 }}
       animate={{ 
-         y: phase === "EXIT" ? "-100%" : "0%",
-         opacity: phase === "EXIT" ? 0 : 1
+         y: isComplete ? "-100%" : "0%",
+         borderBottomLeftRadius: isComplete ? "100%" : "0%",
+         borderBottomRightRadius: isComplete ? "100%" : "0%"
       }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
+      transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
     >
-      {/* Dynamic Grid Background - Moving down to simulate upward motion */}
-      <div className="absolute inset-0 perspective-[500px] overflow-hidden opacity-30">
-        <motion.div
-           className="absolute inset-0 bg-[linear-gradient(transparent_0%,#ffffff_100%)] opacity-20"
-           animate={{ opacity: phase === "TAKEOFF" ? 0.5 : 0 }}
-        />
-        <motion.div 
-           className="w-full h-[200%] absolute -top-[100%] left-0 grid grid-cols-6 grid-rows-12 gap-1 border-white/10"
-           animate={{ y: phase === "TAKEOFF" ? "50%" : "0%" }}
-           transition={{ duration: 1.5, ease: "circIn" }}
-        >
-           {[...Array(72)].map((_,i) => (
-             <div key={i} className="border border-white/5" />
-           ))}
-        </motion.div>
-      </div>
-
-      {/* Centerpiece: The Plane */}
-      <div className="relative z-10">
-         <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ 
-               scale: phase === "TAKEOFF" ? 0.5 : 1, 
-               opacity: 1,
-               y: phase === "TAKEOFF" ? -400 : 0
-            }}
-            transition={{ duration: 1, ease: "easeInOut" }}
+      <div className="relative">
+         
+         {/* Orbiting Doodles */}
+         <motion.div 
+            className="absolute inset-0"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 10, ease: "linear", repeat: Infinity }}
          >
-            <svg width="200" height="200" viewBox="0 0 100 100" className="drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-               
-               {/* Left Wing */}
-               <motion.path 
-                  d="M 50 20 L 20 80 L 50 60 Z" 
-                  fill="white" 
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: phase === "READY" ? 0 : 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-               />
-               
-               {/* Right Wing */}
-               <motion.path 
-                  d="M 50 20 L 80 80 L 50 60 Z" 
-                  fill="#e2e8f0" 
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: phase === "READY" ? 0 : 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-               />
-
-               {/* Center Body */}
-               <motion.path 
-                  d="M 50 15 L 50 90" 
-                  stroke="white" 
-                  strokeWidth="0.5"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.5 }}
-               />
-
-               {/* Thrust/Engine Effect */}
-               <motion.circle 
-                  cx="50" cy="85" r="2" 
-                  fill="white"
-                  animate={{ 
-                     scale: phase === "TAKEOFF" ? [1, 20] : 1,
-                     opacity: phase === "TAKEOFF" ? [1, 0] : 0
-                  }}
-                  transition={{ duration: 0.8 }}
-               />
+            {/* Tiny Star */}
+            <svg className="absolute -top-12 left-1/2 w-6 h-6 text-white" viewBox="0 0 24 24">
+               <path d="M12 2L15 9L22 9L16 14L18 21L12 17L6 21L8 14L2 9L9 9Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+            </svg>
+            {/* Squiggle */}
+            <svg className="absolute -bottom-10 right-0 w-8 h-8 text-[#D9FF00]" viewBox="0 0 24 24">
+               <path d="M2 12C2 12 5 2 12 12C19 22 22 12 22 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
          </motion.div>
+
+         {/* MAIN CHARACTER: The Happy Blob */}
+         <svg width="240" height="240" viewBox="0 0 200 200" className="overflow-visible">
+            
+            {/* Wobbly Blob Outline */}
+            <motion.path
+               d="M 100 20 C 140 20 180 60 180 100 C 180 140 140 180 100 180 C 60 180 20 140 20 100 C 20 60 60 20 100 20 Z"
+               fill="none"
+               stroke="#D9FF00"
+               strokeWidth="6"
+               strokeLinecap="round"
+               strokeLinejoin="round"
+               initial={{ pathLength: 0 }}
+               animate={{ 
+                   pathLength: 1,
+                   d: [
+                      "M 100 20 C 140 20 180 60 180 100 C 180 140 140 180 100 180 C 60 180 20 140 20 100 C 20 60 60 20 100 20 Z",
+                      "M 100 25 C 150 15 175 65 175 100 C 175 135 135 185 100 185 C 65 185 25 145 25 100 C 25 55 50 35 100 25 Z",
+                      "M 100 20 C 140 20 180 60 180 100 C 180 140 140 180 100 180 C 60 180 20 140 20 100 C 20 60 60 20 100 20 Z"
+                   ]
+               }}
+               transition={{ 
+                   pathLength: { duration: 1.5, ease: "easeInOut" },
+                   d: { duration: 2, repeat: Infinity, ease: "easeInOut" } // Wobbly effect
+               }}
+            />
+
+            {/* EYES (Blinking) */}
+            <motion.g
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 1 }}
+            >
+               <motion.circle 
+                  cx="70" cy="90" r="8" fill="white" 
+                  animate={{ scaleY: [1, 0.1, 1] }}
+                  transition={{ delay: 2, duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
+               />
+               <motion.circle 
+                  cx="130" cy="90" r="8" fill="white" 
+                  animate={{ scaleY: [1, 0.1, 1] }}
+                  transition={{ delay: 2, duration: 0.2, repeat: Infinity, repeatDelay: 3 }}
+               />
+            </motion.g>
+
+            {/* SMILE (Drawing on) */}
+            <motion.path
+               d="M 70 120 Q 100 150 130 120"
+               fill="none"
+               stroke="white"
+               strokeWidth="6"
+               strokeLinecap="round"
+               initial={{ pathLength: 0 }}
+               animate={{ pathLength: 1 }}
+               transition={{ delay: 1.5, duration: 0.5, type: "spring" }}
+            />
+
+            {/* CHEEKS */}
+            <motion.g initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.8 }}>
+               <circle cx="55" cy="110" r="6" fill="#D9FF00" opacity="0.5" />
+               <circle cx="145" cy="110" r="6" fill="#D9FF00" opacity="0.5" />
+            </motion.g>
+
+         </svg>
       </div>
 
-      {/* Loading Text / Coordinates */}
-      <div className="absolute bottom-12 flex flex-col items-center gap-2 text-xs tracking-[0.3em] text-white/50">
-         <motion.div animate={{ opacity: phase === "TAKEOFF" ? 0 : 1 }}>
-            {phase === "READY" ? "INITIALIZING..." : phase === "FOLD" ? "ASSEMBLING" : "LAUNCH"}
-         </motion.div>
-         <div className="w-24 h-px bg-white/20 overflow-hidden">
-            <motion.div 
-               className="h-full bg-white"
-               initial={{ x: "-100%" }}
-               animate={{ x: "0%" }}
-               transition={{ duration: 3, ease: "linear" }}
-            />
-         </div>
-      </div>
+      <motion.div 
+         className="mt-8 flex items-center gap-1"
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 1 }}
+         transition={{ delay: 0.5 }}
+      >
+         <span className="font-mono text-xs font-bold tracking-widest text-white">LOADING</span>
+         <motion.span 
+            animate={{ opacity: [0, 1, 0] }} 
+            transition={{ duration: 1.5, repeat: Infinity }} 
+            className="w-1.5 h-1.5 bg-[#D9FF00] rounded-full inline-block"
+         />
+         <motion.span 
+            animate={{ opacity: [0, 1, 0] }} 
+            transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }} 
+            className="w-1.5 h-1.5 bg-[#D9FF00] rounded-full inline-block"
+         />
+         <motion.span 
+            animate={{ opacity: [0, 1, 0] }} 
+            transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }} 
+            className="w-1.5 h-1.5 bg-[#D9FF00] rounded-full inline-block"
+         />
+      </motion.div>
 
     </motion.div>
   );

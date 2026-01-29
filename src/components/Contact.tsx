@@ -1,111 +1,60 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
-import { useRef } from "react";
+import { motion } from "motion/react";
+import { ArrowRight, Mail, Instagram, Linkedin } from "lucide-react";
 
 export function Contact() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const yTitle = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const yContent = useTransform(scrollYProgress, [0, 1], [200, -50]);
-  const scaleTitle = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
-
-  const socialLinks = [
-    { label: "LINKEDIN", href: "https://www.linkedin.com/in/aevlin-prince-146887291/" },
-    { label: "GITHUB", href: "https://github.com/aevlin" },
-    { label: "EMAIL", href: "mailto:aevlinprince@gmail.com" },
-  ];
-
   return (
-    <section ref={containerRef} className="py-40 px-6 bg-white text-black relative overflow-hidden perspective-1000" id="contact">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
-        .perspective-1000 { perspective: 1000px; }
-      `}</style>
-
+    <section className="py-24 px-4 bg-[#050505] text-white border-t border-white/10">
       <div className="max-w-7xl mx-auto">
-        <motion.div style={{ y: yTitle, scale: scaleTitle }} className="mb-24">
-          <motion.span 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="block text-gray-500 font-bebas text-3xl mb-4 tracking-widest"
-          >
-            CONTACT
-          </motion.span>
-          <h2 className="text-[10vw] md:text-[8rem] font-bebas leading-[0.8] mb-12 text-black break-words mix-blend-difference">
-            LET'S WORK TOGETHER
-          </h2>
-          <div className="h-1 w-full bg-black mb-12"></div>
-        </motion.div>
+        
+        <div className="bg-[#111111] rounded-[40px] p-8 md:p-16 border border-white/10 flex flex-col md:flex-row gap-12 items-center justify-between relative overflow-hidden">
+           
+           {/* Decorative Glow */}
+           <div className="absolute top-0 right-0 w-64 h-64 bg-[#D9FF00] blur-[150px] opacity-10 pointer-events-none" />
 
-        <motion.div 
-          style={{ y: yContent }}
-          className="grid md:grid-cols-2 gap-24"
-        >
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <p className="text-3xl md:text-5xl font-bebas text-gray-600 leading-tight mb-16 max-w-lg">
-              HAVE A PROJECT IN MIND? I'D LOVE TO HEAR ABOUT IT. DROP ME A MESSAGE AND LET'S CREATE SOMETHING AMAZING.
-            </p>
-
-            <div className="mb-16">
-              <h3 className="text-gray-500 font-bebas text-2xl mb-4 tracking-widest">STATUS</h3>
-              <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-lg inline-block border border-black/10">
-                <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
-                <span className="text-3xl md:text-4xl font-bebas text-black">AVAILABLE FOR FREELANCE</span>
+           <div className="max-w-xl relative z-10">
+              <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tight uppercase">
+                 Let's start <br/>
+                 <span className="text-[#D9FF00] font-serif-italic font-normal lowercase">working together.</span>
+              </h2>
+              <p className="text-gray-400 leading-relaxed mb-8 font-mono text-sm">
+                 &gt; Always open to new opportunities and collaborations.<br/>
+                 &gt; Whether you have a specific project in mind or just want to chat about design, feel free to reach out.
+              </p>
+              
+              <div className="flex flex-wrap gap-4">
+                 <SocialPill icon={<Mail size={16} />} text="Email" href="mailto:aevlinprince@gmail.com" />
+                 <SocialPill icon={<Linkedin size={16} />} text="LinkedIn" href="https://www.linkedin.com/in/aevlin-prince-146887291/" />
+                 <SocialPill icon={<Instagram size={16} />} text="Instagram" href="#" />
               </div>
-            </div>
+           </div>
 
-            <div>
-              <h3 className="text-gray-500 font-bebas text-2xl mb-4 tracking-widest">LOCATION</h3>
-              <p className="text-4xl md:text-6xl font-bebas text-black">KOTTAYAM, KERALA, INDIA</p>
-            </div>
-          </motion.div>
+           {/* Giant Circle Button */}
+           <motion.a 
+              href="mailto:aevlinprince@gmail.com"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              className="w-48 h-48 md:w-64 md:h-64 bg-[#D9FF00] rounded-full flex flex-col items-center justify-center text-black gap-2 cursor-pointer shadow-[0_0_30px_rgba(217,255,0,0.3)] hover:shadow-[0_0_50px_rgba(217,255,0,0.5)] transition-all group relative z-10"
+           >
+              <span className="text-lg font-black uppercase tracking-widest">Get in touch</span>
+              <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
+           </motion.a>
 
-          <div className="flex flex-col justify-between">
-            <div>
-               <h3 className="text-gray-500 font-bebas text-2xl mb-8 tracking-widest">SOCIALS</h3>
-               <div className="space-y-6">
-                 {socialLinks.map((social, index) => (
-                   <motion.a
-                     key={social.label}
-                     href={social.href}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     initial={{ opacity: 0, y: 20 }}
-                     whileInView={{ opacity: 1, y: 0 }}
-                     viewport={{ once: true }}
-                     transition={{ delay: index * 0.1 }}
-                     className="group flex items-center justify-between py-6 border-b border-gray-200 hover:border-black transition-colors duration-300"
-                   >
-                     <span className="text-5xl md:text-7xl font-bebas text-black group-hover:pl-6 transition-all duration-300">
-                       {social.label}
-                     </span>
-                     <ArrowUpRight className="w-12 h-12 text-gray-400 group-hover:text-black group-hover:rotate-45 transition-all duration-300" />
-                   </motion.a>
-                 ))}
-               </div>
-            </div>
+        </div>
 
-            <div className="mt-16 md:mt-0">
-               <a 
-                 href="mailto:aevlinprince@gmail.com" 
-                 className="block text-2xl md:text-4xl text-gray-400 hover:text-black transition-colors font-bebas tracking-wide"
-               >
-                 aevlinprince@gmail.com
-               </a>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
+}
+
+function SocialPill({ icon, text, href }: { icon: React.ReactNode, text: string, href: string }) {
+   return (
+      <a 
+         href={href}
+         target={href.startsWith('http') ? "_blank" : undefined}
+         rel={href.startsWith('http') ? "noopener noreferrer" : undefined}
+         className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:border-[#D9FF00] hover:text-black hover:bg-[#D9FF00] transition-colors font-bold text-sm bg-black text-white"
+      >
+         {icon}
+         {text}
+      </a>
+   );
 }
