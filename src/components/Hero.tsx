@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
-import myPhoto from "@/assets/images/IMG_2146.jpg";
+import myPhoto from "src/assets/images/IMG_2146.jpg";
 import { Sparkles, Crown, Flame, Star, Mic2 } from "lucide-react";
 import { useRef } from "react";
 
