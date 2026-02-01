@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
 <img
-  src="/images/IMG_2146.jpg"
+  src="IMG_2146.jpg"
   alt="Me"
   className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
 />
