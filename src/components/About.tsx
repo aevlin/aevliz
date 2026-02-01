@@ -1,6 +1,15 @@
 import { motion } from "motion/react";
-import { Star,  Crown, Flame, Hash, Download } from "lucide-react";
-import { SiFigma, SiSketch, SiAdobexd, SiAdobephotoshop, SiHtml5, SiCss3, SiJavascript, SiBootstrap } from "react-icons/si";
+import { Star } from "lucide-react";
+
+// Asset Imports
+import figmaIcon from "figma:asset/dcbf43eef389e5eaad0cccf3881290c6fc255d82.png";
+import psIcon from "figma:asset/e9247645cd5dbac56e77e65c8fac660c9fa71479.png";
+import sketchIcon from "figma:asset/d690831bbba04411ba8a0611324615692ce4112c.png";
+import xdIcon from "figma:asset/967efe12b162c8246ce90bd80b5b3d6ebf81b08d.png";
+import htmlIcon from "figma:asset/3fa1032aa2c393ed4f7032dfe048fd03ebcf022b.png";
+import bsIcon from "figma:asset/136319c117354c7cbb9e869a83901e65c4713317.png";
+import cssIcon from "figma:asset/037bfe39e2b9855ef5c8cde1a901bf553c607059.png";
+import jsIcon from "figma:asset/4e3aa1bb73aaeaf7aa0030b577c8bd9b82144829.png";
 
 export function About() {
   return (
@@ -105,15 +114,16 @@ export function About() {
                     <Star className="text-[#D9FF00] fill-[#D9FF00]" /> My Tools
                  </h3>
                  
-                 <div className="grid grid-cols-4 gap-4">
-                    <SkillIcon icon={<SiFigma size={24} />} name="Figma" />
-                    <SkillIcon icon={<SiSketch size={24} />} name="Sketch" />
-                    <SkillIcon icon={<SiAdobexd size={24} />} name="XD" />
-                    <SkillIcon icon={<SiAdobephotoshop size={24} />} name="Ps" />
-                    <SkillIcon icon={<SiHtml5 size={24} />} name="HTML" />
-                    <SkillIcon icon={<SiCss3 size={24} />} name="CSS" />
-                    <SkillIcon icon={<SiJavascript size={24} />} name="JS" />
-                    <SkillIcon icon={<SiBootstrap size={24} />} name="Bs" />
+                 <div className="grid grid-cols-4 gap-2">
+                    {/* Compact boxes with visible icons */}
+                    <SkillIcon image={figmaIcon} name="Figma" scale={1.4} />
+                    <SkillIcon image={sketchIcon} name="Sketch" />
+                    <SkillIcon image={xdIcon} name="XD" scale={1.4} />
+                    <SkillIcon image={psIcon} name="Ps" scale={1.4} />
+                    <SkillIcon image={htmlIcon} name="HTML" />
+                    <SkillIcon image={cssIcon} name="CSS" />
+                    <SkillIcon image={jsIcon} name="JS" />
+                    <SkillIcon image={bsIcon} name="Bs" />
                  </div>
               </div>
 
@@ -219,7 +229,6 @@ export function About() {
                          backgroundSize: "20px 40px" 
                       }} 
                  />
-
               </motion.div>
            </div>
 
@@ -269,13 +278,20 @@ function ExperienceItem({ role, org, date, duration, desc, isCurrent }: any) {
    );
 }
 
-function SkillIcon({ icon, name }: { icon: any, name: string }) {
+function SkillIcon({ image, name, scale = 1 }: { image: string, name: string, scale?: number }) {
    return (
-      <div className="flex flex-col items-center justify-center gap-2 p-4 bg-[#111111] rounded-xl border border-white/10 hover:border-[#D9FF00] hover:bg-[#1A1A1A] transition-all group cursor-default">
-         <div className="text-gray-400 group-hover:text-[#D9FF00] group-hover:scale-110 transition-transform duration-300">
-            {icon}
+      <div 
+         className="flex flex-col items-center justify-center gap-1 p-2 bg-[#111111] rounded-lg border border-white/10 hover:border-[#D9FF00] hover:bg-[#1A1A1A] transition-all group cursor-default"
+      >
+         <div className="transition-transform duration-300 group-hover:scale-110 flex items-center justify-center w-10 h-10 md:w-12 md:h-12">
+            <img 
+               src={image} 
+               alt={name} 
+               className="w-full h-full object-contain" 
+               style={{ transform: `scale(${scale})` }}
+            />
          </div>
-         <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider group-hover:text-white">
+         <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider group-hover:text-white">
             {name}
          </span>
       </div>

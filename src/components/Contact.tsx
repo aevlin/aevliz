@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowRight, Mail, Instagram, Linkedin } from "lucide-react";
+import { ArrowRight, Mail, Linkedin } from "lucide-react";
 
 export function Contact() {
   return (
@@ -24,23 +24,55 @@ export function Contact() {
               <div className="flex flex-wrap gap-4">
                  <SocialPill icon={<Mail size={16} />} text="Email" href="mailto:aevlinprince@gmail.com" />
                  <SocialPill icon={<Linkedin size={16} />} text="LinkedIn" href="https://www.linkedin.com/in/aevlin-prince-146887291/" />
-                 <SocialPill icon={<Instagram size={16} />} text="Instagram" href="#" />
+                 <SocialPill icon={<BehanceIcon size={16} />} text="Behance" href="https://www.behance.net/aevlinprince" />
               </div>
            </div>
 
-           {/* Giant Circle Button */}
-           <motion.a 
-              href="mailto:aevlinprince@gmail.com"
-              whileHover={{ scale: 1.05, rotate: 5 }}
-              className="w-48 h-48 md:w-64 md:h-64 bg-[#D9FF00] rounded-full flex flex-col items-center justify-center text-black gap-2 cursor-pointer shadow-[0_0_30px_rgba(217,255,0,0.3)] hover:shadow-[0_0_50px_rgba(217,255,0,0.5)] transition-all group relative z-10"
-           >
-              <span className="text-lg font-black uppercase tracking-widest">Get in touch</span>
-              <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
-           </motion.a>
+           {/* 3D Button Cube */}
+           <a href="mailto:aevlinprince@gmail.com" className="relative group perspective-1000">
+             <div className="w-48 h-16 md:w-64 md:h-20 transform-style-3d group-hover:rotate-x-90 transition-transform duration-500 cursor-pointer">
+               
+               {/* Front Face */}
+               <div className="absolute inset-0 bg-[#D9FF00] flex items-center justify-center border-2 border-[#D9FF00] translate-z-[32px] md:translate-z-[40px]">
+                 <span className="text-black font-black uppercase tracking-widest text-lg md:text-xl flex items-center gap-2">
+                   Get in touch <ArrowRight size={20} />
+                 </span>
+               </div>
+               
+               {/* Top Face (Hidden until hover) */}
+               <div className="absolute inset-0 bg-black flex items-center justify-center border-2 border-[#D9FF00] -rotate-x-90 translate-z-[32px] md:translate-z-[40px]">
+                 <span className="text-[#D9FF00] font-black uppercase tracking-widest text-lg md:text-xl flex items-center gap-2">
+                   Send Email <Mail size={20} />
+                 </span>
+               </div>
+               
+             </div>
+           </a>
 
         </div>
 
       </div>
+
+      <style>{`
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
+        .rotate-x-90 {
+          transform: rotateX(90deg);
+        }
+        .-rotate-x-90 {
+          transform: rotateX(-90deg);
+        }
+        .translate-z-\[32px\] {
+          transform: translateZ(32px);
+        }
+        .translate-z-\[40px\] {
+          transform: translateZ(40px);
+        }
+      `}</style>
     </section>
   );
 }
@@ -57,4 +89,19 @@ function SocialPill({ icon, text, href }: { icon: React.ReactNode, text: string,
          {text}
       </a>
    );
+}
+
+function BehanceIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="currentColor" 
+      stroke="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M22 7h-5v2h5V7zm1 5h-6v2h6v-2zM4.7 6.4h5.3c2.4 0 3.8 1.4 3.8 3.5 0 1.5-.9 2.5-2 3 1.5.5 2.5 1.7 2.5 3.4 0 2.3-1.6 4.1-4.2 4.1H4.7V6.4zm5 4.3c0-1.2-.6-1.7-1.8-1.7H7.3v3.4h.7c1.1 0 1.7-.6 1.7-1.7zm.4 5.6c0-1.2-.6-1.8-2-1.8h-.8v3.6h.8c1.3 0 2-.6 2-1.8z" />
+    </svg>
+  );
 }

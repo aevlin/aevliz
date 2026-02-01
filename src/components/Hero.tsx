@@ -170,7 +170,7 @@ function NameRow({ text, font, delay, isScript = false }: any) {
 
    return (
       <motion.div 
-         className={`flex justify-center ${font} ${isScript ? 'text-[16vw] md:text-[15vw]' : 'text-[20vw] md:text-[18vw]'} tracking-tighter leading-none`}
+         className={`flex justify-center ${font} ${isScript ? 'text-[12vw] md:text-[10vw]' : 'text-[15vw] md:text-[12vw]'} tracking-tighter leading-none`}
          initial={{ y: 100, opacity: 0 }}
          animate={{ y: 0, opacity: 1 }}
          transition={{ delay, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
