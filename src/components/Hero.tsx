@@ -1,5 +1,10 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
-import myPhoto from "../assets/images/IMG_2146.jpg";
+<img
+  src="/images/IMG_2146.jpg"
+  alt="Me"
+  className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
+/>
+
 import { Sparkles, Crown, Flame, Star, Mic2 } from "lucide-react";
 import { useRef } from "react";
 
