@@ -93,7 +93,7 @@ export function Hero() {
                </div>
 
                <div className="relative overflow-hidden bg-gray-200 aspect-[3/4]">
-                  <img src="IMG_2146.jpg" alt="Me" className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500" />
+                  <img src={myPhoto} alt="Me" className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500" />
                   <div className="absolute inset-0 bg-black/10 mix-blend-overlay pointer-events-none" />
                </div>
 
